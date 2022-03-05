@@ -1,24 +1,34 @@
 import React from 'react';
-import tw, { styled } from 'twin.macro';
-
-export const Box = styled.div`
-  ${tw`
-    w-full 
-    h-screen 
-    bg-black 
-    flex 
-    justify-center
-    items-center
-    text-white
-    text-2xl
-  `}
-`;
+import { Switch, Route } from 'react-router-dom';
+import { AppWrapper } from './common/AppWrapper';
+import Player from './layout/Player/Player';
+import { MainWrapper } from './common/MainWrapper';
+import Header from './layout/Header/Header';
+import SingleSong from './view/SingleSong/SingleSong';
 
 const App = () => {
   return (
-    <Box>
-      Placeholder
-    </Box>
+    <AppWrapper>
+      <MainWrapper>
+        <Header />
+        <Switch>
+          <Route
+            exact
+            path="/"
+          >
+            <SingleSong />
+          </Route>
+          <Route
+            exact
+            path="/library"
+          >
+            library
+          </Route>
+        </Switch>
+      </MainWrapper>
+
+      <Player />
+    </AppWrapper>
   );
 };
 

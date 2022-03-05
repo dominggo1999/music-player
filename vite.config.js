@@ -1,13 +1,27 @@
-// vite.config.json
-import { defineConfig } from 'vite';
+import { resolve } from 'path';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import macrosPlugin from 'vite-plugin-babel-macros';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [reactRefresh(), macrosPlugin()],
-  define: {
-    'process.platform': JSON.stringify('win32'),
-    'process.env': {},
-  },
-});
+const r = (path) => resolve(__dirname, path);
+
+const srcRoot = r('src');
+export default () => {
+  return {
+    root: srcRoot,
+    base: '/',
+    plugins: [reactRefresh(), macrosPlugin()],
+    build: {
+      outDir: r('dist/'),
+      emptyOutDir: true,
+      rollupOptions: {},
+    },
+    server: {
+      port: process.env.PORT === undefined ? 3000 : +process.env.PORT,
+    },
+    define: {
+      'process.platform': JSON.stringify('win32'),
+      'process.env': {
+      },
+    },
+  };
+};
