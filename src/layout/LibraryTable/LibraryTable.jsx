@@ -2,6 +2,7 @@
 import React, { useMemo } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { TableWrapper } from './LibraryTable.style';
+import useActiveSongStore from '../../store/useActiveSongStore';
 
 const formatDuration = (secs) => {
   const secNum = parseInt(secs, 10);
@@ -40,6 +41,8 @@ const sortDuration = (rowA, rowB, id, desc) => {
 };
 
 const LibraryTable = ({ songs }) => {
+  const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
+
   const formatSongs = songs.map((item) => {
     return {
       ...item,
@@ -88,6 +91,10 @@ const LibraryTable = ({ songs }) => {
     prepareRow,
   } = reactTable;
 
+  const play = (path) => {
+    updateActiveSong(path);
+  };
+
   return (
     <TableWrapper>
       <table {...getTableProps()}>
@@ -116,9 +123,13 @@ const LibraryTable = ({ songs }) => {
         <tbody {...getTableBodyProps()}>
           {rows.map(
             (row, i) => {
+              const filePath = row.original.path;
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr
+                  onDoubleClick={() => play(filePath)}
+                  {...row.getRowProps()}
+                >
                   <td>{i + 1}</td>
                   {row.cells.map((cell) => {
                     return (
