@@ -3,6 +3,7 @@ import tw, { styled } from 'twin.macro';
 export const HeaderWrapper = styled.nav`
   ${tw`
     py-2
+    mb-2
     flex
     justify-between
     items-center

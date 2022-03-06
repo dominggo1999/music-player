@@ -4,6 +4,10 @@ import { PlayerWrapper } from './Player.style';
 import 'react-h5-audio-player/lib/styles.css';
 
 const Player = () => {
+  const handleEnded = () => {
+    console.log('ened');
+  };
+
   return (
     <PlayerWrapper>
       <AudioPlayer
@@ -13,6 +17,7 @@ const Player = () => {
         autoPlayAfterSrcChange={false}
         muted
         showFilledVolume
+        onEnded={handleEnded}
       />
     </PlayerWrapper>
   );

@@ -5,7 +5,7 @@ const MusicCover = () => {
   return (
     <Cover>
       <img
-        src="https://i.pinimg.com/originals/69/27/f2/6927f2a7dfa015098e9f33107724e0a0.jpg"
+        src="https://upload.wikimedia.org/wikipedia/id/a/a7/Raisa_handmade.jpeg"
         alt=""
       />
     </Cover>

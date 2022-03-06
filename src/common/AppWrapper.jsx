@@ -9,6 +9,5 @@ export const AppWrapper = styled.div`
     max-w-[800px] 
     mx-auto
     justify-between
-    p-5
   `}
 `;

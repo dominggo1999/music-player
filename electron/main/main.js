@@ -11,8 +11,11 @@ const {
 const isDev = require('electron-is-dev');
 const path = require('path');
 const util = require('util');
-const fs = require('fs');
 const recursive = require('recursive-readdir');
+const mm = require('music-metadata');
+const Store = require('electron-store');
+
+const store = new Store();
 
 const scanRecursive = util.promisify(recursive);
 
@@ -26,7 +29,7 @@ require('electron-reload')(path.join(__dirname, '../'));
 let window;
 
 const height = 650;
-const width = 800;
+const width = 1000;
 function createWindow() {
   // Create the browser window.
   window = new BrowserWindow({
@@ -97,21 +100,30 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') { app.quit(); }
 });
 
-const getFiles = async () => {
-  const result = await dialog.showOpenDialog(window, {
+const getFiles = async (savedPath) => {
+  const directory = savedPath || await dialog.showOpenDialog(window, {
     properties: ['openDirectory'],
   });
-  const folder = result.filePaths[0];
+
+  // If dialog is cancel tell renderer
+  if(directory.canceled) {
+    return {
+      canceled: true,
+    };
+  }
+  // If directory is chosen tell renderer to trigger loading indicator
+  window.webContents.send('scanning-folder', 'scanning-folder');
+
+  const folder = savedPath || directory.filePaths[0];
+
+  // Save folder location
+  store.set('current_directory', folder);
 
   const ignoreFunction = (file, stats) => {
     const acceptedFileExt = [
       '.mp3',
-      '.m4a',
-      '.webm',
       '.wav',
-      '.aac',
       '.ogg',
-      '.opus',
     ];
 
     const ext = path.extname(file).toLowerCase();
@@ -121,16 +133,51 @@ const getFiles = async () => {
   };
 
   let files = await scanRecursive(folder, [ignoreFunction]);
-  files = files.map((item) => {
+
+  // get music metadata
+  let filesInfo = files.map((item) => {
+    const info = mm.parseFile(item, { duration: true });
+    return info;
+  });
+
+  filesInfo = await Promise.all(filesInfo);
+
+  files = files.map((item, id) => {
+    const { common, format } = filesInfo[id];
+
     return {
-      name: path.basename(item),
       path: item,
+      title: path.basename(item).replace(/\.[^/.]+$/, ''), // trim extension
+      artist: common.artist || '',
+      genre: common.genre || [],
+      // only need one cover
+      cover: common.picture ? `data:${common.picture[0].format};base64,${common.picture[0].data.toString('base64')}` : '',
+      duration: format.duration,
     };
   });
 
-  window.webContents.send('get-files', files);
+  return { files };
 };
 
-ipcMain.handle('select-dirs', async (event, arg) => {
-  getFiles();
+ipcMain.handle('select-dir', async () => {
+  return getFiles();
+});
+
+ipcMain.handle('first-render', async () => {
+  // check active directory
+  const currentDirectory = store.get('current_directory');
+  const activeSong = store.get('song');
+
+  // If no directory return empty array
+  if(!currentDirectory) {
+    return [];
+  }
+
+  // If there is directory, get all files in the directory
+  const files = await getFiles(currentDirectory);
+  return {
+    directory: currentDirectory,
+    activeSong,
+    files,
+  };
 });

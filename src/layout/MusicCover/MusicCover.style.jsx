@@ -3,14 +3,13 @@ import tw, { styled } from 'twin.macro';
 export const Cover = styled.div`
   ${tw`
     rounded-full 
-    overflow-hidden
-    w-[40%]
+    w-[300px]
     mx-auto 
     relative
   `}
 
   aspect-ratio : 1/1;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  box-shadow: rgba(0, 0, 0, 0.349) 0px 20px 25px -5px, rgba(0, 0, 0, 0.301) 0px 10px 10px -5px;
 
   img{
     ${tw`
@@ -18,6 +17,7 @@ export const Cover = styled.div`
       h-full
       object-cover
       object-center
+      rounded-full
     `}
   }
 `;

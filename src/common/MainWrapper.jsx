@@ -8,4 +8,6 @@ export const MainWrapper = styled.div`
     w-full
     text-light-text
   `}
+
+  height : calc(100% - 120px);
 `;

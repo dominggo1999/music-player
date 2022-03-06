@@ -8,7 +8,6 @@ export const PlayerWrapper = styled.div`
     w-full
     left-0 
     bg-primary
-    px-5
   `}
 
   .rhap_container{
