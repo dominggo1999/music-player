@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import LibraryTable from '../../layout/LibraryTable/LibraryTable';
 import SearchBar from '../../layout/SearchBar/SearchBar';
-import { TopSection, LibraryWrapper } from './Library.style';
+import {
+  TopSection, LibraryWrapper, LoadingText, LoadingIndicatorWrapper,
+} from './Library.style';
 import { Button } from '../../common/Button';
 import useListStore from '../../store/useListStore';
+import { SearchIndicator } from '../../common/LoadingIndicator';
 
 const Library = ({
   loading, setLoading, error, setError,
@@ -41,7 +44,12 @@ const Library = ({
        !loading && songs.length > 0 && <LibraryTable songs={songs} />
       }
       {
-        loading && <p>scanning folder ...</p>
+        loading && (
+          <LoadingIndicatorWrapper>
+            <SearchIndicator />
+            <LoadingText>Scanning folder..</LoadingText>
+          </LoadingIndicatorWrapper>
+        )
       }
     </LibraryWrapper>
   );
