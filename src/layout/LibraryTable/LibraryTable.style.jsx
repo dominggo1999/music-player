@@ -120,7 +120,7 @@ export const TableWrapper = styled.div`
 
   tbody::-webkit-scrollbar {
     ${tw`
-      w-[5px]
+      w-[8px]
       bg-transparent
     `}
   }
@@ -128,7 +128,7 @@ export const TableWrapper = styled.div`
   tbody::-webkit-scrollbar-thumb {
     ${tw`
       rounded-full
-      w-[5px]
+      w-[8px]
       bg-transparent
     `}
   }
