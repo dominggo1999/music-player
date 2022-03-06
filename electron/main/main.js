@@ -166,12 +166,14 @@ ipcMain.handle('select-dir', async () => {
 ipcMain.handle('first-render', async () => {
   // check active directory
   const currentDirectory = store.get('current_directory');
-  const activeSong = store.get('song');
+  const activeSong = store.get('active_song');
 
   // If no directory return empty array
   if(!currentDirectory) {
     return [];
   }
+
+  console.log(activeSong);
 
   // If there is directory, get all files in the directory
   const files = await getFiles(currentDirectory);
@@ -180,4 +182,8 @@ ipcMain.handle('first-render', async () => {
     activeSong,
     files,
   };
+});
+
+ipcMain.handle('save-active-song', async (sender, data) => {
+  store.set('active_song', data);
 });

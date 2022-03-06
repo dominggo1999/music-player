@@ -6,7 +6,6 @@ import useActiveSongStore from '../../store/useActiveSongStore';
 
 const Player = () => {
   const activeSong = useActiveSongStore((state) => state.activeSong.path);
-  console.log(activeSong);
 
   const handleEnded = () => {
     console.log('ened');

@@ -17,13 +17,23 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const updateSongs = useListStore((state) => state.updateSongs);
-  const updateActiveSong = useActiveSongStore((state) => state.updateInfo);
+  const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
 
   useEffect(() => {
     const getSavedData = async () => {
       try {
-        const { files } = await send('first-render');
+        const { files, activeSong } = await send('first-render');
         updateSongs(files.files);
+
+        // Check if active song still exist in playist
+
+        const targetSongIndex = files.files.map((i) => i.path).indexOf(activeSong);
+        if(targetSongIndex === -1) {
+          const firstSong = files.files[0].path;
+          updateActiveSong(firstSong);
+        }else{
+          updateActiveSong(activeSong);
+        }
       } catch (error) {
         setError(error);
       }finally{

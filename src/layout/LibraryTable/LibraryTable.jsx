@@ -42,6 +42,7 @@ const sortDuration = (rowA, rowB, id, desc) => {
 
 const LibraryTable = ({ songs }) => {
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
+  const { send } = window.api;
 
   const formatSongs = songs.map((item) => {
     return {
@@ -93,6 +94,7 @@ const LibraryTable = ({ songs }) => {
 
   const play = (path) => {
     updateActiveSong(path);
+    send('save-active-song', path);
   };
 
   return (

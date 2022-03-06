@@ -7,6 +7,7 @@ import {
 import { Button } from '../../common/Button';
 import useListStore from '../../store/useListStore';
 import { SearchIndicator } from '../../common/LoadingIndicator';
+import useActiveSongStore from '../../store/useActiveSongStore';
 
 const Library = ({
   loading, setLoading, error, setError,
@@ -14,13 +15,17 @@ const Library = ({
   const { send } = window.api;
   const songs = useListStore((state) => state.list.songs);
   const updateSongs = useListStore((state) => state.updateSongs);
+  const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
 
   const chooseDirectory = async () => {
     try {
       const { files, canceled } = await send('select-dir');
 
       if(!canceled) {
+        const firstSong = files[0].path;
+        updateActiveSong(firstSong);
         updateSongs(files);
+        send('save-active-song', firstSong);
       }
     } catch (error) {
       setError(error);

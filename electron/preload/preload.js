@@ -2,7 +2,7 @@ const { ipcRenderer, contextBridge } = require('electron');
 
 const path = require('path');
 
-const validChannels = ['get-files', 'select-dir', 'first-render', 'scanning-folder'];
+const validChannels = ['get-files', 'select-dir', 'first-render', 'scanning-folder', 'save-active-song'];
 
 const api = {
   receive: (channel, callback) => {

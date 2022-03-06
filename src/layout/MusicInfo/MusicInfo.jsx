@@ -1,11 +1,11 @@
 import React from 'react';
 import { MusicInfoWrapper, Title, Artist } from './MusicInfo.style';
 
-const MusicInfo = () => {
+const MusicInfo = ({ title, artist }) => {
   return (
     <MusicInfoWrapper>
-      <Title>Thank You For Loving Me</Title>
-      <Artist>Bon Jovi</Artist>
+      <Title>{title}</Title>
+      <Artist>{artist}</Artist>
     </MusicInfoWrapper>
   );
 };
