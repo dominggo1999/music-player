@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import AudioPlayer from 'react-h5-audio-player';
 import { PlayerWrapper } from './Player.style';
 import 'react-h5-audio-player/lib/styles.css';
@@ -12,13 +12,14 @@ const Player = () => {
   const updateAutoplay = useActiveSongStore((state) => state.updateAutoplay);
   const sortedList = useListStore((state) => state.list.sortedList);
   const playlist = useListStore((state) => state.list.playlist);
+  const [shouldUpdateAutoPlay, setShouldUpdateAutoPlay] = useState(false);
 
   // Index of active song
   const targetSong = playlist.filter((i) => i.path === activeSong)[0];
   const activeSongIndex = playlist.indexOf(targetSong);
 
   const nextSong = () => {
-    updateAutoplay(true);
+    shouldUpdateAutoPlay && updateAutoplay(true);
 
     // find active song index in sortedList
     const activeSongPosition = sortedList.indexOf(`${activeSongIndex}`);
@@ -38,7 +39,7 @@ const Player = () => {
   };
 
   const previousSong = () => {
-    updateAutoplay(true);
+    shouldUpdateAutoPlay && updateAutoplay(true);
 
     // find active song index in sortedList
     const activeSongPosition = sortedList.indexOf(`${activeSongIndex}`);
@@ -62,6 +63,7 @@ const Player = () => {
   };
 
   const handlePlay = () => {
+    setShouldUpdateAutoPlay(true);
   };
 
   return useMemo(() => {
@@ -82,7 +84,7 @@ const Player = () => {
       </PlayerWrapper>
     );
   },
-  [activeSong, isAutoplay]);
+  [activeSong, isAutoplay, shouldUpdateAutoPlay]);
 };
 
 export default Player;
