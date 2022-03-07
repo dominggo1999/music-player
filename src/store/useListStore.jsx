@@ -33,6 +33,12 @@ const sort = (set, newSortParam) => {
   }));
 };
 
+const updateDirectory = (set, newDirectory) => {
+  return set(produce((draft) => {
+    draft.list.directory = newDirectory;
+  }));
+};
+
 const useListStore = create((set, get) => {
   return {
     list: initialSongs,
@@ -40,6 +46,7 @@ const useListStore = create((set, get) => {
     updatePlaylist: (newPlayist) => updatePlaylist(set, newPlayist),
     sort: (newSortParam) => sort(set, newSortParam),
     updateSortedList: (newSortParam) => updateSortedList(set, newSortParam),
+    updateDirectory: (newDirectory) => updateDirectory(set, newDirectory),
   };
 });
 

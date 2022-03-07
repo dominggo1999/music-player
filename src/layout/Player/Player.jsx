@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import AudioPlayer from 'react-h5-audio-player';
 import { PlayerWrapper } from './Player.style';
 import 'react-h5-audio-player/lib/styles.css';
@@ -7,6 +7,7 @@ import useListStore from '../../store/useListStore';
 
 const Player = () => {
   const activeSong = useActiveSongStore((state) => state.activeSong.path);
+  const isAutoplay = useActiveSongStore((state) => state.activeSong.isAutoplay);
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
   const sortedList = useListStore((state) => state.list.sortedList);
   const playlist = useListStore((state) => state.list.playlist);
@@ -15,10 +16,7 @@ const Player = () => {
   const targetSong = playlist.filter((i) => i.path === activeSong)[0];
   const activeSongIndex = playlist.indexOf(targetSong);
 
-  const handleEnded = () => {
-  };
-
-  const handleClickNext = () => {
+  const nextSong = () => {
     // find active song index in sortedList
     const activeSongPosition = sortedList.indexOf(`${activeSongIndex}`);
 
@@ -36,7 +34,7 @@ const Player = () => {
     updateActiveSong(nextSongPath);
   };
 
-  const handleClickPrevious = () => {
+  const previousSong = () => {
     // find active song index in sortedList
     const activeSongPosition = sortedList.indexOf(`${activeSongIndex}`);
 
@@ -54,21 +52,32 @@ const Player = () => {
     updateActiveSong(nextSongPath);
   };
 
-  return (
-    <PlayerWrapper>
-      <AudioPlayer
-        src={activeSong ? `atom://${activeSong}` : ''}
-        hasDefaultKeyBindings={false}
-        autoPlayAfterSrcChange={false}
-        showFilledVolume
-        onEnded={handleEnded}
-        showSkipControls
-        showJumpControls={false}
-        onClickPrevious={handleClickPrevious}
-        onClickNext={handleClickNext}
-      />
-    </PlayerWrapper>
-  );
+  const handleEnded = () => {
+    nextSong();
+  };
+
+  const handlePlay = () => {
+  };
+
+  return useMemo(() => {
+    return (
+      <PlayerWrapper>
+        <AudioPlayer
+          src={activeSong ? `atom://${activeSong}` : ''}
+          hasDefaultKeyBindings={false}
+          autoPlayAfterSrcChange={isAutoplay}
+          showFilledVolume
+          onEnded={handleEnded}
+          showSkipControls
+          showJumpControls={false}
+          onClickPrevious={previousSong}
+          onClickNext={nextSong}
+          onPlay={handlePlay}
+        />
+      </PlayerWrapper>
+    );
+  },
+  [activeSong, isAutoplay]);
 };
 
 export default Player;

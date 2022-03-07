@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
+import { BsFillPlayFill } from 'react-icons/bs';
 import { TableWrapper } from './LibraryTable.style';
 import useActiveSongStore from '../../store/useActiveSongStore';
 import useListStore from '../../store/useListStore';
@@ -44,6 +45,7 @@ const sortDuration = (rowA, rowB, id, desc) => {
 const LibraryTable = ({ playlist, sortingSettings, query }) => {
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
   const updateSortedList = useListStore((state) => state.updateSortedList);
+  const updateAutoplay = useActiveSongStore((state) => state.updateAutoplay);
 
   const { send } = window.api;
   const [firstRenderFinished, setFirstRenderFinished] = useState(false);
@@ -81,12 +83,14 @@ const LibraryTable = ({ playlist, sortingSettings, query }) => {
     ];
   }, []);
 
+  sortingSettings = sortingSettings.id ? [sortingSettings] : [];
+
   const reactTable = useTable(
     {
       columns,
       data: memoizedSongs,
       initialState: {
-        sortBy: [sortingSettings],
+        sortBy: sortingSettings,
       },
     },
     useSortBy,
@@ -123,6 +127,7 @@ const LibraryTable = ({ playlist, sortingSettings, query }) => {
   }, []);
 
   const play = (path) => {
+    updateAutoplay(true);
     updateActiveSong(path);
     send('save-active-song', path);
   };

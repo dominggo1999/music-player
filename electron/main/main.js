@@ -156,7 +156,7 @@ const getFiles = async (savedPath) => {
     };
   });
 
-  return { files };
+  return { files, directory: folder };
 };
 
 ipcMain.handle('select-dir', async () => {
@@ -200,6 +200,5 @@ ipcMain.handle('get-sorting-settings', async (sender) => {
 });
 
 ipcMain.handle('save-sorted-index', async (sender, data) => {
-  console.log(data);
   store.set('sorted-list-index', data);
 });

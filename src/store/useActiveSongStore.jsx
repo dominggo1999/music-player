@@ -4,6 +4,7 @@ import produce from 'immer';
 export const initialActiveSong = {
   isPlay: false,
   path: '',
+  isAutoplay: false,
 };
 
 const updateActiveSong = (set, newValue) => {
@@ -12,10 +13,17 @@ const updateActiveSong = (set, newValue) => {
   }));
 };
 
+const updateAutoplay = (set, newValue) => {
+  return set(produce((draft) => {
+    draft.activeSong.isAutoplay = newValue;
+  }));
+};
+
 const useActiveSongStore = create((set, get) => {
   return {
     activeSong: initialActiveSong,
     updateActiveSong: (newValue) => updateActiveSong(set, newValue),
+    updateAutoplay: (newValue) => updateAutoplay(set, newValue),
   };
 });
 

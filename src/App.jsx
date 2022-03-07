@@ -18,6 +18,8 @@ const App = () => {
   const [error, setError] = useState(false);
   const updateSongs = useListStore((state) => state.updateSongs);
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
+  const updateAutoplay = useActiveSongStore((state) => state.updateAutoplay);
+  const updateDirectory = useListStore((state) => state.updateDirectory);
   const updatePlaylist = useListStore((state) => state.updatePlaylist);
   const sort = useListStore((state) => state.sort);
   const updateSortedList = useListStore((state) => state.updateSortedList);
@@ -26,11 +28,13 @@ const App = () => {
     const getSavedData = async () => {
       try {
         const {
-          files, activeSong, sortingSettings, sortedListIndex,
+          files, activeSong, sortingSettings, sortedListIndex, directory,
         } = await send('first-render');
+
         updateSongs(files.files);
         updatePlaylist(files.files);
         updateSortedList(sortedListIndex);
+        updateDirectory(directory);
         sort(sortingSettings[0] || {});
 
         // Check if active song still exist in songs
@@ -55,6 +59,7 @@ const App = () => {
     const scanningFile = (msg) => {
       if(msg === 'scanning-folder') {
         setLibraryLoading(true);
+        updateAutoplay(false);
       }
     };
 
