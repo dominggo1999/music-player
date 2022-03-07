@@ -9,6 +9,7 @@ const Player = () => {
   const activeSong = useActiveSongStore((state) => state.activeSong.path);
   const isAutoplay = useActiveSongStore((state) => state.activeSong.isAutoplay);
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
+  const updateAutoplay = useActiveSongStore((state) => state.updateAutoplay);
   const sortedList = useListStore((state) => state.list.sortedList);
   const playlist = useListStore((state) => state.list.playlist);
 
@@ -17,6 +18,8 @@ const Player = () => {
   const activeSongIndex = playlist.indexOf(targetSong);
 
   const nextSong = () => {
+    updateAutoplay(true);
+
     // find active song index in sortedList
     const activeSongPosition = sortedList.indexOf(`${activeSongIndex}`);
 
@@ -35,6 +38,8 @@ const Player = () => {
   };
 
   const previousSong = () => {
+    updateAutoplay(true);
+
     // find active song index in sortedList
     const activeSongPosition = sortedList.indexOf(`${activeSongIndex}`);
 
