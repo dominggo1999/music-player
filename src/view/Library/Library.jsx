@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LibraryTable from '../../layout/LibraryTable/LibraryTable';
 import SearchBar from '../../layout/SearchBar/SearchBar';
 import {
@@ -13,8 +13,15 @@ const Library = ({
   loading, setLoading, error, setError,
 }) => {
   const { send } = window.api;
-  const songs = useListStore((state) => state.list.songs);
+
+  const [displayedPlaylist, setDisplayedPlaylist] = useState();
+  const [query, setQuery] = useState('');
+
+  const playlist = useListStore((state) => state.list.playlist);
+  const updatePlaylist = useListStore((state) => state.updatePlaylist);
+  const sortingSettings = useListStore((state) => state.list.sortedBy);
   const updateSongs = useListStore((state) => state.updateSongs);
+  const sort = useListStore((state) => state.sort);
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
 
   const chooseDirectory = async () => {
@@ -25,7 +32,13 @@ const Library = ({
         const firstSong = files[0].path;
         updateActiveSong(firstSong);
         updateSongs(files);
+        updatePlaylist(files);
+        sort({});
         send('save-active-song', firstSong);
+
+        const defaultSortedIndex = Array.from(Array(files.length).keys()).map((item) => `${item}`);
+
+        send('save-sorted-index', defaultSortedIndex);
       }
     } catch (error) {
       setError(error);
@@ -34,10 +47,28 @@ const Library = ({
     }
   };
 
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+    const q = e.target.value.trim().toLowerCase();
+    if(q) {
+      const filteredPlaylist = playlist.filter((item) => {
+        return item.title.toLowerCase().indexOf(q) !== -1;
+      });
+      setDisplayedPlaylist(filteredPlaylist);
+    }else{
+      updatePlaylist(playlist);
+    }
+  };
+
+  if(sortingSettings === '') return null;
+
   return (
     <LibraryWrapper>
       <TopSection>
-        <SearchBar />
+        <SearchBar
+          query={query}
+          handleChange={handleChange}
+        />
         <Button
           disabled={loading}
           onClick={chooseDirectory}
@@ -46,7 +77,13 @@ const Library = ({
         </Button>
       </TopSection>
       {
-       !loading && songs.length > 0 && <LibraryTable songs={songs} />
+        !loading && playlist.length > 0 && (
+        <LibraryTable
+          sortingSettings={sortingSettings}
+          query={query}
+          playlist={query ? displayedPlaylist : playlist}
+        />
+        )
       }
       {
         loading && (

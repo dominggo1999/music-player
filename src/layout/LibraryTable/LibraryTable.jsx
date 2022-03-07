@@ -1,8 +1,9 @@
 /* eslint-disable no-nested-ternary */
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { TableWrapper } from './LibraryTable.style';
 import useActiveSongStore from '../../store/useActiveSongStore';
+import useListStore from '../../store/useListStore';
 
 const formatDuration = (secs) => {
   const secNum = parseInt(secs, 10);
@@ -40,11 +41,15 @@ const sortDuration = (rowA, rowB, id, desc) => {
   return 0;
 };
 
-const LibraryTable = ({ songs }) => {
+const LibraryTable = ({ playlist, sortingSettings, query }) => {
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
-  const { send } = window.api;
+  const updateSortedList = useListStore((state) => state.updateSortedList);
 
-  const formatSongs = songs.map((item) => {
+  const { send } = window.api;
+  const [firstRenderFinished, setFirstRenderFinished] = useState(false);
+  const sort = useListStore((state) => state.sort);
+
+  const formatSongs = playlist.map((item) => {
     return {
       ...item,
       duration: formatDuration(item.duration),
@@ -52,7 +57,7 @@ const LibraryTable = ({ songs }) => {
       genre: item.genre ? item.genre[0] : '',
     };
   });
-  const memoizedSongs = useMemo(() => formatSongs, [JSON.stringify(songs)]);
+  const memoizedSongs = useMemo(() => formatSongs, [JSON.stringify(playlist)]);
 
   const columns = useMemo(() => {
     return [
@@ -80,6 +85,9 @@ const LibraryTable = ({ songs }) => {
     {
       columns,
       data: memoizedSongs,
+      initialState: {
+        sortBy: [sortingSettings],
+      },
     },
     useSortBy,
   );
@@ -90,7 +98,29 @@ const LibraryTable = ({ songs }) => {
     headerGroups,
     rows,
     prepareRow,
+    state,
+    sortedRows,
   } = reactTable;
+
+  useEffect(() => {
+    // Only change sorting settings when there is no query
+
+    if(firstRenderFinished && !query) {
+      send('save-sorting-settings', state.sortBy);
+      sort(state.sortBy[0] || {});
+
+      // Save order
+      const newOrder = sortedRows.map((i) => i.id);
+      send('save-sorted-index', newOrder);
+      updateSortedList(newOrder);
+
+      // Change global order state
+    }
+  }, [JSON.stringify(state.sortBy)]);
+
+  useEffect(() => {
+    setFirstRenderFinished(true);
+  }, []);
 
   const play = (path) => {
     updateActiveSong(path);
@@ -107,7 +137,9 @@ const LibraryTable = ({ songs }) => {
               {headerGroup.headers.map((column) => (
                 // Add the sorting props to control sorting. For this example
                 // we can add them into the header props
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                >
                   {column.render('Header')}
                   {/* Add a sort direction indicator */}
                   <span>

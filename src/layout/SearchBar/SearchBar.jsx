@@ -1,11 +1,7 @@
 import React from 'react';
 import { StyledSearchBar } from './SearchBar.style';
 
-const SearchBar = () => {
-  const handleChange = (e) => {
-    console.log(e.target.value);
-  };
-
+const SearchBar = ({ handleChange }) => {
   return (
     <StyledSearchBar>
       <input

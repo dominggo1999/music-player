@@ -167,13 +167,13 @@ ipcMain.handle('first-render', async () => {
   // check active directory
   const currentDirectory = store.get('current_directory');
   const activeSong = store.get('active_song');
+  const sortingSettings = store.get('sorting-settings');
+  const sortedListIndex = store.get('sorted-list-index');
 
   // If no directory return empty array
   if(!currentDirectory) {
     return [];
   }
-
-  console.log(activeSong);
 
   // If there is directory, get all files in the directory
   const files = await getFiles(currentDirectory);
@@ -181,9 +181,25 @@ ipcMain.handle('first-render', async () => {
     directory: currentDirectory,
     activeSong,
     files,
+    sortingSettings,
+    sortedListIndex,
   };
 });
 
 ipcMain.handle('save-active-song', async (sender, data) => {
   store.set('active_song', data);
+});
+
+ipcMain.handle('save-sorting-settings', async (sender, data) => {
+  store.set('sorting-settings', data);
+});
+
+ipcMain.handle('get-sorting-settings', async (sender) => {
+  const sortingSettings = store.get('sorting-settings');
+  return sortingSettings;
+});
+
+ipcMain.handle('save-sorted-index', async (sender, data) => {
+  console.log(data);
+  store.set('sorted-list-index', data);
 });

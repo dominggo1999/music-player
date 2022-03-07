@@ -18,14 +18,22 @@ const App = () => {
   const [error, setError] = useState(false);
   const updateSongs = useListStore((state) => state.updateSongs);
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
+  const updatePlaylist = useListStore((state) => state.updatePlaylist);
+  const sort = useListStore((state) => state.sort);
+  const updateSortedList = useListStore((state) => state.updateSortedList);
 
   useEffect(() => {
     const getSavedData = async () => {
       try {
-        const { files, activeSong } = await send('first-render');
+        const {
+          files, activeSong, sortingSettings, sortedListIndex,
+        } = await send('first-render');
         updateSongs(files.files);
+        updatePlaylist(files.files);
+        updateSortedList(sortedListIndex);
+        sort(sortingSettings[0] || {});
 
-        // Check if active song still exist in playist
+        // Check if active song still exist in songs
 
         const targetSongIndex = files.files.map((i) => i.path).indexOf(activeSong);
         if(targetSongIndex === -1) {
