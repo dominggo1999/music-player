@@ -16,28 +16,28 @@ const App = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const updateSongs = useListStore((state) => state.updateSongs);
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
   const updateAutoplay = useActiveSongStore((state) => state.updateAutoplay);
+
+  const updateSongs = useListStore((state) => state.updateSongs);
   const updateDirectory = useListStore((state) => state.updateDirectory);
   const updatePlaylist = useListStore((state) => state.updatePlaylist);
+  const updateOrder = useListStore((state) => state.updateOrder);
   const sort = useListStore((state) => state.sort);
-  const updateSortedList = useListStore((state) => state.updateSortedList);
 
   useEffect(() => {
     const getSavedData = async () => {
       try {
         const {
-          files, activeSong, sortingSettings, sortedListIndex, directory,
+          files, activeSong, sortingSettings, directory,
         } = await send('first-render');
 
-        updateSongs(files.files);
-        updatePlaylist(files.files);
-        updateSortedList(sortedListIndex);
+        updateSongs(files);
+        updateActiveSong(activeSong);
+        updatePlaylist(files);
+        updateOrder(files.map((i) => i.path));
         updateDirectory(directory);
         sort(sortingSettings[0] || {});
-
-        // Check if active song still exist in songs
 
         const targetSongIndex = files.files.map((i) => i.path).indexOf(activeSong);
         if(targetSongIndex === -1) {

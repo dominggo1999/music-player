@@ -23,7 +23,6 @@ const Library = ({
   const updateSongs = useListStore((state) => state.updateSongs);
   const sort = useListStore((state) => state.sort);
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
-  const updateSortedList = useListStore((state) => state.updateSortedList);
   const updateDirectory = useListStore((state) => state.updateDirectory);
 
   const chooseDirectory = async () => {
@@ -37,7 +36,6 @@ const Library = ({
         updateActiveSong(firstSong);
         updateSongs(files);
         updatePlaylist(files);
-        updateSortedList(defaultSortedIndex);
         updateDirectory(directory);
         sort({});
 

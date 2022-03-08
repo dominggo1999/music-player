@@ -6,36 +6,9 @@ import useListStore from '../../store/useListStore';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 
-const formatDuration = (secs) => {
-  const secNum = parseInt(secs, 10);
-  const hours = Math.floor(secNum / 3600);
-  const minutes = Math.floor(secNum / 60) % 60;
-  const seconds = secNum % 60;
-
-  return [hours, minutes, seconds]
-    .map((v) => (v < 10 ? `0${v}` : v))
-    .filter((v, i) => v !== '00' || i > 0)
-    .join(':');
-};
-
-const parseDuration = (str) => {
-  const p = str.toString().split(':');
-  let s = 0;
-  let m = 1;
-
-  while (p.length > 0) {
-    s += m * parseInt(p.pop(), 10);
-    m *= 60;
-  }
-
-  return s;
-};
-
 const sortDuration = (rowA, rowB, id, desc) => {
-  const a = rowA.values[id];
-  const b = rowB.values[id];
-  const durationA = parseDuration(a);
-  const durationB = parseDuration(b);
+  const durationA = rowA.original.duration;
+  const durationB = rowB.original.duration;
 
   if (durationA > durationB) return 1;
   if (durationB > durationA) return -1;
@@ -43,7 +16,7 @@ const sortDuration = (rowA, rowB, id, desc) => {
 };
 
 const LibraryTable = ({ playlist, sortingSettings, query }) => {
-  const updateSortedList = useListStore((state) => state.updateSortedList);
+  const updateOrder = useListStore((state) => state.updateOrder);
 
   const { send } = window.api;
   const [firstRenderFinished, setFirstRenderFinished] = useState(false);
@@ -52,11 +25,11 @@ const LibraryTable = ({ playlist, sortingSettings, query }) => {
   const formatSongs = playlist.map((item) => {
     return {
       ...item,
-      duration: formatDuration(item.duration),
       artist: item.artist || 'Unknown',
-      genre: item.genre ? item.genre[0] : '',
+      genre: item.genre.length > 0 ? item.genre[0] : '',
     };
   });
+
   const memoizedSongs = useMemo(() => formatSongs, [JSON.stringify(playlist)]);
 
   const columns = useMemo(() => {
@@ -71,7 +44,7 @@ const LibraryTable = ({ playlist, sortingSettings, query }) => {
       },
       {
         Header: 'Duration',
-        accessor: 'duration',
+        accessor: 'formattedDuration',
         sortType: sortDuration,
       },
       {
@@ -110,16 +83,19 @@ const LibraryTable = ({ playlist, sortingSettings, query }) => {
       send('save-sorting-settings', state.sortBy);
       sort(state.sortBy[0] || {});
 
+      const playlistOrdered = sortedRows.map((i) => i.original);
       // Save order
-      const newOrder = sortedRows.map((i) => i.id);
-      send('save-sorted-index', newOrder);
-      updateSortedList(newOrder);
+      send('save-list', playlistOrdered);
 
-      // Change global order state
+      // Update "order" global state
+      updateOrder(playlistOrdered.map((i) => i.path));
     }
   }, [JSON.stringify(state.sortBy)]);
 
   useEffect(() => {
+    const playlistOrdered = sortedRows.map((i) => i.original);
+    updateOrder(playlistOrdered.map((i) => i.path));
+
     setFirstRenderFinished(true);
   }, []);
 

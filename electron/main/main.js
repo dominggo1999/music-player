@@ -14,6 +14,7 @@ const util = require('util');
 const recursive = require('recursive-readdir');
 const mm = require('music-metadata');
 const Store = require('electron-store');
+const { formatDuration } = require('./util');
 
 const store = new Store();
 
@@ -100,8 +101,8 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') { app.quit(); }
 });
 
-const getFiles = async (savedPath) => {
-  const directory = savedPath || await dialog.showOpenDialog(window, {
+const getFiles = async () => {
+  const directory = await dialog.showOpenDialog(window, {
     properties: ['openDirectory'],
   });
 
@@ -114,10 +115,7 @@ const getFiles = async (savedPath) => {
   // If directory is chosen tell renderer to trigger loading indicator
   window.webContents.send('scanning-folder', 'scanning-folder');
 
-  const folder = savedPath || directory.filePaths[0];
-
-  // Save folder location
-  store.set('current_directory', folder);
+  const folder = directory.filePaths[0];
 
   const ignoreFunction = (file, stats) => {
     const acceptedFileExt = [
@@ -153,8 +151,13 @@ const getFiles = async (savedPath) => {
       // only need one cover
       cover: common.picture ? `data:${common.picture[0].format};base64,${common.picture[0].data.toString('base64')}` : '',
       duration: format.duration,
+      formattedDuration: formatDuration(format.duration),
     };
   });
+
+  // Save folder location
+  store.set('current_directory', folder);
+  store.set('current_files', files);
 
   return { files, directory: folder };
 };
@@ -166,9 +169,9 @@ ipcMain.handle('select-dir', async () => {
 ipcMain.handle('first-render', async () => {
   // check active directory
   const currentDirectory = store.get('current_directory');
+  const currentFiles = store.get('current_files');
   const activeSong = store.get('active_song');
   const sortingSettings = store.get('sorting-settings');
-  const sortedListIndex = store.get('sorted-list-index');
 
   // If no directory return empty array
   if(!currentDirectory) {
@@ -176,14 +179,16 @@ ipcMain.handle('first-render', async () => {
   }
 
   // If there is directory, get all files in the directory
-  const files = await getFiles(currentDirectory);
   return {
     directory: currentDirectory,
     activeSong,
-    files,
+    files: currentFiles,
     sortingSettings,
-    sortedListIndex,
   };
+});
+
+ipcMain.handle('save-list', async (sender, data) => {
+  // store.set('current_files', data);
 });
 
 ipcMain.handle('save-active-song', async (sender, data) => {
@@ -197,8 +202,4 @@ ipcMain.handle('save-sorting-settings', async (sender, data) => {
 ipcMain.handle('get-sorting-settings', async (sender) => {
   const sortingSettings = store.get('sorting-settings');
   return sortingSettings;
-});
-
-ipcMain.handle('save-sorted-index', async (sender, data) => {
-  store.set('sorted-list-index', data);
 });

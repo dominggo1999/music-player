@@ -4,12 +4,26 @@ import produce from 'immer';
 export const initialActiveSong = {
   isPlay: false,
   path: '',
+  nextPath: '',
+  prevPath: '',
   isAutoplay: false,
 };
 
 const updateActiveSong = (set, newValue) => {
   return set(produce((draft) => {
     draft.activeSong.path = newValue;
+  }));
+};
+
+const updateNextPath = (set, newValue) => {
+  return set(produce((draft) => {
+    draft.activeSong.nextPath = newValue;
+  }));
+};
+
+const updatePrevPath = (set, newValue) => {
+  return set(produce((draft) => {
+    draft.activeSong.prevPath = newValue;
   }));
 };
 
@@ -31,6 +45,8 @@ const useActiveSongStore = create((set, get) => {
     updateActiveSong: (newValue) => updateActiveSong(set, newValue),
     updateAutoplay: (newValue) => updateAutoplay(set, newValue),
     updateIsPlay: (newValue) => updateIsPlay(set, newValue),
+    updateNextPath: (newValue) => updateNextPath(set, newValue),
+    updatePrevPath: (newValue) => updatePrevPath(set, newValue),
   };
 });
 

@@ -9,54 +9,43 @@ const Player = () => {
   const activeSong = useActiveSongStore((state) => state.activeSong.path);
   const updateIsPlay = useActiveSongStore((state) => state.updateIsPlay);
   const isAutoplay = useActiveSongStore((state) => state.activeSong.isAutoplay);
-  const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
   const updateAutoplay = useActiveSongStore((state) => state.updateAutoplay);
-  const sortedList = useListStore((state) => state.list.sortedList);
-  const playlist = useListStore((state) => state.list.playlist);
+  const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
   const [shouldUpdateAutoPlay, setShouldUpdateAutoPlay] = useState(false);
 
-  // Index of active song
-  const targetSong = playlist.filter((i) => i.path === activeSong)[0];
-  const activeSongIndex = playlist.indexOf(targetSong);
+  const order = useListStore((state) => state.list.order);
+  const sortedBy = useListStore((state) => state.list.sortedBy);
 
   const nextSong = () => {
     shouldUpdateAutoPlay && updateAutoplay(true);
 
-    // find active song index in sortedList
-    const activeSongPosition = sortedList.indexOf(`${activeSongIndex}`);
+    // Find index of current song
+    const currentSongId = order.indexOf(activeSong);
 
-    // Find the next song position in sorted list
-    let nextSongPosition = activeSongPosition + 1;
-    nextSongPosition = nextSongPosition > sortedList.length - 1 ? 0 : nextSongPosition;
+    // Find the next song id
+    let nextSongId = currentSongId + 1;
+    nextSongId = nextSongId > order.length - 1 ? 0 : nextSongId;
 
-    // Find the next song id in playlist
-    const nextSongId = sortedList[nextSongPosition];
+    // Find the next song path
+    const nextSongPath = order[nextSongId];
 
-    // Get next song path
-    const nextSongPath = playlist[nextSongId].path;
-
-    // Update active song
     updateActiveSong(nextSongPath);
   };
 
   const previousSong = () => {
     shouldUpdateAutoPlay && updateAutoplay(true);
 
-    // find active song index in sortedList
-    const activeSongPosition = sortedList.indexOf(`${activeSongIndex}`);
+    // Find index of current song
+    const currentSongId = order.indexOf(activeSong);
 
-    // Find the previous song position in sorted list
-    let nextSongPosition = activeSongPosition - 1;
-    nextSongPosition = nextSongPosition < 0 ? sortedList.length - 1 : nextSongPosition;
+    // Find the next song id
+    let prevSongId = currentSongId - 1;
+    prevSongId = prevSongId === -1 ? order.length - 1 : prevSongId;
 
-    // Find the previous song id in playlist
-    const nextSongId = sortedList[nextSongPosition];
+    // Find the next song path
+    const prevSongPath = order[prevSongId];
 
-    // Get previous song path
-    const nextSongPath = playlist[nextSongId].path;
-
-    // Update active song
-    updateActiveSong(nextSongPath);
+    updateActiveSong(prevSongPath);
   };
 
   const handleEnded = () => {
@@ -91,7 +80,7 @@ const Player = () => {
       </PlayerWrapper>
     );
   },
-  [activeSong, isAutoplay, shouldUpdateAutoPlay]);
+  [activeSong, isAutoplay, shouldUpdateAutoPlay, JSON.stringify(sortedBy)]);
 };
 
 export default Player;

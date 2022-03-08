@@ -4,7 +4,7 @@ import produce from 'immer';
 export const initialSongs = {
   songs: [],
   playlist: [],
-  sortedList: [],
+  order: [],
   sortedBy: '',
   directory: '',
 };
@@ -21,12 +21,6 @@ const updatePlaylist = (set, newPlaylist) => {
   }));
 };
 
-const updateSortedList = (set, newSortedList) => {
-  return set(produce((draft) => {
-    draft.list.sortedList = newSortedList;
-  }));
-};
-
 const sort = (set, newSortParam) => {
   return set(produce((draft) => {
     draft.list.sortedBy = newSortParam;
@@ -39,14 +33,20 @@ const updateDirectory = (set, newDirectory) => {
   }));
 };
 
+const updateOrder = (set, newOrder) => {
+  return set(produce((draft) => {
+    draft.list.order = newOrder;
+  }));
+};
+
 const useListStore = create((set, get) => {
   return {
     list: initialSongs,
     updateSongs: (newSongs) => updateSongs(set, newSongs),
     updatePlaylist: (newPlayist) => updatePlaylist(set, newPlayist),
     sort: (newSortParam) => sort(set, newSortParam),
-    updateSortedList: (newSortParam) => updateSortedList(set, newSortParam),
     updateDirectory: (newDirectory) => updateDirectory(set, newDirectory),
+    updateOrder: (newDirectory) => updateOrder(set, newDirectory),
   };
 });
 
