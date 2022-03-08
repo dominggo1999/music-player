@@ -19,11 +19,18 @@ const updateAutoplay = (set, newValue) => {
   }));
 };
 
+const updateIsPlay = (set, newValue) => {
+  return set(produce((draft) => {
+    draft.activeSong.isPlay = newValue;
+  }));
+};
+
 const useActiveSongStore = create((set, get) => {
   return {
     activeSong: initialActiveSong,
     updateActiveSong: (newValue) => updateActiveSong(set, newValue),
     updateAutoplay: (newValue) => updateAutoplay(set, newValue),
+    updateIsPlay: (newValue) => updateIsPlay(set, newValue),
   };
 });
 

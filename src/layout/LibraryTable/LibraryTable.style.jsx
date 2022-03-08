@@ -1,5 +1,17 @@
 import tw, { styled } from 'twin.macro';
 
+export const ControlButton = styled.button`
+  ${tw`
+    text-2xl
+    flex 
+    items-center 
+    justify-center
+    w-full 
+    h-full
+    text-accent
+  `}
+`;
+
 export const TableWrapper = styled.div`
   ${tw`
     flex
@@ -47,6 +59,42 @@ export const TableWrapper = styled.div`
       flex
       w-full
       px-5
+    `}
+  }
+
+  tbody tr {
+    ${ControlButton}{
+      ${tw`
+        hidden
+      `}
+    }
+    
+
+    &:hover{
+      ${ControlButton}{
+        ${tw`
+          block
+        `}
+      }
+
+      .equalizer-icon{
+        ${tw`
+          hidden
+        `}
+      }
+
+      td:nth-of-type(1) span {
+        ${tw`
+          hidden
+        `}
+      }
+    }
+  }
+
+  /* If song is playing */
+  tr.now-playing{
+    ${tw`
+      text-accent
     `}
   }
 

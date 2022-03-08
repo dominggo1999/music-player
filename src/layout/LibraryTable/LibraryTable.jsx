@@ -1,10 +1,10 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
-import { BsFillPlayFill } from 'react-icons/bs';
 import { TableWrapper } from './LibraryTable.style';
-import useActiveSongStore from '../../store/useActiveSongStore';
 import useListStore from '../../store/useListStore';
+import TableHeader from './TableHeader';
+import TableBody from './TableBody';
 
 const formatDuration = (secs) => {
   const secNum = parseInt(secs, 10);
@@ -43,9 +43,7 @@ const sortDuration = (rowA, rowB, id, desc) => {
 };
 
 const LibraryTable = ({ playlist, sortingSettings, query }) => {
-  const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
   const updateSortedList = useListStore((state) => state.updateSortedList);
-  const updateAutoplay = useActiveSongStore((state) => state.updateAutoplay);
 
   const { send } = window.api;
   const [firstRenderFinished, setFirstRenderFinished] = useState(false);
@@ -98,7 +96,6 @@ const LibraryTable = ({ playlist, sortingSettings, query }) => {
 
   const {
     getTableProps,
-    getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
@@ -126,60 +123,15 @@ const LibraryTable = ({ playlist, sortingSettings, query }) => {
     setFirstRenderFinished(true);
   }, []);
 
-  const play = (path) => {
-    updateAutoplay(true);
-    updateActiveSong(path);
-    send('save-active-song', path);
-  };
-
   return (
     <TableWrapper>
       <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              <th>No</th>
-              {headerGroup.headers.map((column) => (
-                // Add the sorting props to control sorting. For this example
-                // we can add them into the header props
-                <th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                >
-                  {column.render('Header')}
-                  {/* Add a sort direction indicator */}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map(
-            (row, i) => {
-              const filePath = row.original.path;
-              prepareRow(row);
-              return (
-                <tr
-                  onDoubleClick={() => play(filePath)}
-                  {...row.getRowProps()}
-                >
-                  <td>{i + 1}</td>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}><span>{cell.render('Cell')}</span></td>
-                    );
-                  })}
-                </tr>
-              );
-            },
-          )}
-        </tbody>
+        <TableHeader headerGroups={headerGroups} />
+        <TableBody
+          rows={rows}
+          getTableBodyProps={getTableProps}
+          prepareRow={prepareRow}
+        />
       </table>
     </TableWrapper>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import AudioPlayer from 'react-h5-audio-player';
 import { PlayerWrapper } from './Player.style';
 import 'react-h5-audio-player/lib/styles.css';
@@ -7,6 +7,7 @@ import useListStore from '../../store/useListStore';
 
 const Player = () => {
   const activeSong = useActiveSongStore((state) => state.activeSong.path);
+  const updateIsPlay = useActiveSongStore((state) => state.updateIsPlay);
   const isAutoplay = useActiveSongStore((state) => state.activeSong.isAutoplay);
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
   const updateAutoplay = useActiveSongStore((state) => state.updateAutoplay);
@@ -63,7 +64,12 @@ const Player = () => {
   };
 
   const handlePlay = () => {
+    updateIsPlay(true);
     setShouldUpdateAutoPlay(true);
+  };
+
+  const handlePause = () => {
+    updateIsPlay(false);
   };
 
   return useMemo(() => {
@@ -80,6 +86,7 @@ const Player = () => {
           onClickPrevious={previousSong}
           onClickNext={nextSong}
           onPlay={handlePlay}
+          onPause={handlePause}
         />
       </PlayerWrapper>
     );
