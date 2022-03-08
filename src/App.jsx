@@ -92,6 +92,9 @@ const App = () => {
               error={libraryError}
             />
           </Route>
+          <Route path="*">
+            <SingleSong />
+          </Route>
         </Switch>
       </MainWrapper>
       <Player />

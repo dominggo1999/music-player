@@ -7,6 +7,7 @@ const {
   protocol,
   nativeTheme,
   dialog,
+  globalShortcut,
 } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
@@ -22,10 +23,19 @@ const scanRecursive = util.promisify(recursive);
 
 const resolve = path.resolve;
 
-const r = (path) => resolve(__dirname, path);
+if(isDev) {
+  // the first argument can be: a file, directory or glob pattern
+  // eslint-disable-next-line global-require
+  require('electron-reload')(path.join(__dirname, '../'));
+}
 
-// the first argument can be: a file, directory or glob pattern
-require('electron-reload')(path.join(__dirname, '../'));
+const getPreloadDir = () => (isDev
+  ? path.join(process.cwd(), 'electron') // or wherever your local build is compiled
+  : path.join(process.resourcesPath, 'app', 'electron')); // asar location
+
+const getSourceDir = () => (isDev
+  ? path.join(process.cwd(), 'out') // or wherever your local build is compiled
+  : path.join(process.resourcesPath, 'app', 'out')); // asar location
 
 let window;
 
@@ -43,13 +53,13 @@ function createWindow() {
     resizable: true,
     fullscreenable: true,
     webPreferences: {
-      preload: path.join(__dirname, '../preload/preload.js'),
+      preload: path.join(getPreloadDir(), '/preload/preload.js'),
     },
     autoHideMenuBar: true,
   });
   const port = process.env.PORT || 3000;
 
-  const url = isDev ? `http://localhost:${port}` : r('../out/index.html');
+  const url = isDev ? `http://localhost:${port}` : path.join(getSourceDir(), '/index.html');
   // and load the index.html of the app.
   if (isDev) {
     window === null || window === void 0 ? void 0 : window.loadURL(url);
@@ -57,7 +67,7 @@ function createWindow() {
     window === null || window === void 0 ? void 0 : window.loadFile(url);
   }
   // Open the DevTools.
-  window.webContents.openDevTools();
+  isDev && window.webContents.openDevTools();
 
   // Dark mode
   nativeTheme.themeSource = 'dark';
@@ -94,6 +104,19 @@ app.whenReady().then(() => {
     callback({ path: pathname });
   });
 });
+
+app.on('ready', () => {
+  // Disable devtools on build
+  if(!isDev) {
+    globalShortcut.register('Control+Shift+I', () => {
+      return false;
+    });
+    globalShortcut.register('Control+R', () => {
+      return false;
+    });
+  }
+});
+
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
@@ -158,6 +181,7 @@ const getFiles = async () => {
   // Save folder location
   store.set('current_directory', folder);
   store.set('current_files', files);
+  store.set('active_song', files[0].path);
 
   return { files, directory: folder };
 };

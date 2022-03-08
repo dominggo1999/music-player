@@ -8,10 +8,10 @@ const srcRoot = r('src');
 export default () => {
   return {
     root: srcRoot,
-    base: '/',
+    base: '',
     plugins: [reactRefresh(), macrosPlugin()],
     build: {
-      outDir: r('dist/'),
+      outDir: r('out/'),
       emptyOutDir: true,
       rollupOptions: {},
     },

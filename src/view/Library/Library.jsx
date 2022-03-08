@@ -7,48 +7,20 @@ import {
 import { Button } from '../../common/Button';
 import useListStore from '../../store/useListStore';
 import { SearchIndicator } from '../../common/LoadingIndicator';
-import useActiveSongStore from '../../store/useActiveSongStore';
+
+import useChooseDirectory from '../../hooks/useChooseDirectory';
 
 const Library = ({
   loading, setLoading, error, setError,
 }) => {
-  const { send } = window.api;
-
   const [displayedPlaylist, setDisplayedPlaylist] = useState();
   const [query, setQuery] = useState('');
 
   const playlist = useListStore((state) => state.list.playlist);
   const updatePlaylist = useListStore((state) => state.updatePlaylist);
   const sortingSettings = useListStore((state) => state.list.sortedBy);
-  const updateSongs = useListStore((state) => state.updateSongs);
-  const sort = useListStore((state) => state.sort);
-  const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
-  const updateDirectory = useListStore((state) => state.updateDirectory);
 
-  const chooseDirectory = async () => {
-    try {
-      const { files, canceled, directory } = await send('select-dir');
-
-      if(!canceled) {
-        const firstSong = files[0].path;
-        const defaultSortedIndex = Array.from(Array(files.length).keys()).map((item) => `${item}`);
-
-        updateActiveSong(firstSong);
-        updateSongs(files);
-        updatePlaylist(files);
-        updateDirectory(directory);
-        sort({});
-
-        send('save-sorting-settings', {});
-        send('save-active-song', firstSong);
-        send('save-sorted-index', defaultSortedIndex);
-      }
-    } catch (error) {
-      setError(error);
-    }finally{
-      setLoading(false);
-    }
-  };
+  const chooseDirectory = useChooseDirectory({ setLoading, setError });
 
   const handleChange = (e) => {
     setQuery(e.target.value);
