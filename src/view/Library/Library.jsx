@@ -22,9 +22,9 @@ const Library = ({
 
   const chooseDirectory = useChooseDirectory({ setLoading, setError });
 
-  const handleChange = (e) => {
-    setQuery(e.target.value);
-    const q = e.target.value.trim().toLowerCase();
+  const changeQuery = (query) => {
+    setQuery(query);
+    const q = query.trim().toLowerCase();
     if(q) {
       const filteredPlaylist = playlist.filter((item) => {
         return item.title.toLowerCase().indexOf(q) !== -1;
@@ -42,7 +42,7 @@ const Library = ({
       <TopSection>
         <SearchBar
           query={query}
-          handleChange={handleChange}
+          changeQuery={changeQuery}
         />
         <Button
           disabled={loading}

@@ -1,11 +1,20 @@
 import React from 'react';
-import { StyledSearchBar } from './SearchBar.style';
+import { AiOutlineClose } from 'react-icons/ai';
+import { StyledSearchBar, ClearQueryButton } from './SearchBar.style';
 
-const SearchBar = ({ handleChange }) => {
+const SearchBar = ({ changeQuery, query }) => {
   return (
     <StyledSearchBar>
+      {
+        query && (
+          <ClearQueryButton onClick={() => changeQuery('')}>
+            <AiOutlineClose />
+          </ClearQueryButton>
+        )
+      }
       <input
-        onChange={handleChange}
+        value={query}
+        onChange={(e) => changeQuery(e.target.value)}
         type="text"
         placeholder="Search song"
       />
