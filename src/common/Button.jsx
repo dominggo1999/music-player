@@ -7,5 +7,6 @@ export const Button = styled.button`
     px-4 
     py-1  
     rounded-full
+    font-medium
   `}
 `;

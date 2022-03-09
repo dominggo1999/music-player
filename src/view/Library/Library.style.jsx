@@ -15,27 +15,4 @@ export const TopSection = styled.div`
     pb-2
     justify-between
   `}
-
-  button {
-    ${tw`
-      font-semibold
-    `}
-  }
-`;
-
-export const LoadingIndicatorWrapper = styled.div`
-  ${tw`
-    flex 
-    flex-col 
-    flex-1
-    justify-center 
-    items-center
-  `}
-`;
-
-export const LoadingText = styled.span`
-  ${tw`
-    mt-4 
-    text-light-text
-  `}
 `;

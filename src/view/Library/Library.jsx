@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import LibraryTable from '../../layout/LibraryTable/LibraryTable';
 import SearchBar from '../../layout/SearchBar/SearchBar';
 import {
-  TopSection, LibraryWrapper, LoadingText, LoadingIndicatorWrapper,
+  TopSection, LibraryWrapper,
 } from './Library.style';
 import { Button } from '../../common/Button';
 import useListStore from '../../store/useListStore';
-import { SearchIndicator } from '../../common/LoadingIndicator';
-
-import useChooseDirectory from '../../hooks/useChooseDirectory';
+import { SearchIndicator, LoadingIndicatorWrapper, LoadingText } from '../../common/LoadingIndicator';
+import NoLibraryMessage from '../../layout/NoLibraryMessage/NoLibraryMessage';
 
 const Library = ({
-  loading, setLoading, error, setError,
+  loading, chooseDirectory,
 }) => {
   const [displayedPlaylist, setDisplayedPlaylist] = useState();
   const [query, setQuery] = useState('');
@@ -19,8 +18,6 @@ const Library = ({
   const playlist = useListStore((state) => state.list.playlist);
   const updatePlaylist = useListStore((state) => state.updatePlaylist);
   const sortingSettings = useListStore((state) => state.list.sortedBy);
-
-  const chooseDirectory = useChooseDirectory({ setLoading, setError });
 
   const changeQuery = (query) => {
     setQuery(query);
@@ -35,7 +32,20 @@ const Library = ({
     }
   };
 
-  if(sortingSettings === '') return null;
+  if(loading) {
+    return (
+      <LoadingIndicatorWrapper>
+        <SearchIndicator />
+        <LoadingText>Scanning folder..</LoadingText>
+      </LoadingIndicatorWrapper>
+    );
+  }
+
+  if(!playlist.length) {
+    return (
+      <NoLibraryMessage chooseDirectory={chooseDirectory} />
+    );
+  }
 
   return (
     <LibraryWrapper>
@@ -58,14 +68,6 @@ const Library = ({
           query={query}
           playlist={query ? displayedPlaylist : playlist}
         />
-        )
-      }
-      {
-        loading && (
-          <LoadingIndicatorWrapper>
-            <SearchIndicator />
-            <LoadingText>Scanning folder..</LoadingText>
-          </LoadingIndicatorWrapper>
         )
       }
     </LibraryWrapper>

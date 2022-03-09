@@ -7,7 +7,7 @@ import 'react-h5-audio-player/lib/styles.css';
 import useActiveSongStore from '../../store/useActiveSongStore';
 import useListStore from '../../store/useListStore';
 
-const Player = () => {
+const Player = ({ loading }) => {
   const activeSong = useActiveSongStore((state) => state.activeSong.path);
   const updateIsPlay = useActiveSongStore((state) => state.updateIsPlay);
   const isAutoplay = useActiveSongStore((state) => state.activeSong.isAutoplay);
@@ -73,23 +73,23 @@ const Player = () => {
     return (
       <PlayerWrapper>
         <AudioPlayer
-          src={activeSong ? `atom://${activeSong}` : ''}
+          src={activeSong && !loading ? `atom://${activeSong}` : ''}
           hasDefaultKeyBindings={false}
           autoPlayAfterSrcChange={isAutoplay}
           showFilledVolume
-          onEnded={handleEnded}
           showSkipControls
           showJumpControls={false}
-          onClickPrevious={previousSong}
-          onClickNext={nextSong}
-          onPlay={handlePlay}
-          onPause={handlePause}
+          onEnded={!loading ? handleEnded : () => {}}
+          onClickPrevious={!loading ? previousSong : () => {}}
+          onClickNext={!loading ? nextSong : () => {}}
+          onPlay={!loading ? handlePlay : () => {}}
+          onPause={!loading ? handlePause : () => {}}
           ref={audioRef}
         />
       </PlayerWrapper>
     );
   },
-  [activeSong, isAutoplay, shouldUpdateAutoPlay, JSON.stringify(sortedBy)]);
+  [activeSong, isAutoplay, shouldUpdateAutoPlay, JSON.stringify(sortedBy), loading]);
 };
 
 export default Player;

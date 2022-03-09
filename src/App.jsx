@@ -8,10 +8,11 @@ import SingleSong from './view/SingleSong/SingleSong';
 import Library from './view/Library/Library';
 import useActiveSongStore from './store/useActiveSongStore';
 import useListStore from './store/useListStore';
+import useChooseDirectory from './hooks/useChooseDirectory';
 
 const App = () => {
   const { send, receive } = window.api;
-  const [libraryLoading, setLibraryLoading] = useState(false);
+  const [libraryLoading, setLibraryLoading] = useState(true);
   const [libraryError, setLibraryError] = useState();
 
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,7 @@ const App = () => {
   const updatePlaylist = useListStore((state) => state.updatePlaylist);
   const updateOrder = useListStore((state) => state.updateOrder);
   const sort = useListStore((state) => state.sort);
+  const chooseDirectory = useChooseDirectory({ setLoading: setLibraryLoading, setError: setLibraryError });
 
   useEffect(() => {
     const getSavedData = async () => {
@@ -32,16 +34,16 @@ const App = () => {
           files, activeSong, sortingSettings, directory,
         } = await send('first-render');
 
-        updateSongs(files);
-        updateActiveSong(activeSong);
-        updatePlaylist(files);
-        updateOrder(files.map((i) => i.path));
-        updateDirectory(directory);
+        updateSongs(files || []);
+        updatePlaylist(files || []);
+        updateOrder(files ? files.map((i) => i.path) : []);
+        updateDirectory(directory || '');
         sort(sortingSettings[0] || {});
 
-        const targetSongIndex = files.files.map((i) => i.path).indexOf(activeSong);
+        const targetSongIndex = files.map((i) => i.path).indexOf(activeSong);
+
         if(targetSongIndex === -1) {
-          const firstSong = files.files[0].path;
+          const firstSong = files[0].path;
           updateActiveSong(firstSong);
         }else{
           updateActiveSong(activeSong);
@@ -79,25 +81,29 @@ const App = () => {
             exact
             path="/"
           >
-            <SingleSong />
+            <SingleSong
+              loading={libraryLoading}
+              chooseDirectory={chooseDirectory}
+            />
           </Route>
           <Route
             exact
             path="/library"
           >
             <Library
-              setLoading={setLibraryLoading}
-              setError={setLibraryError}
               loading={libraryLoading}
-              error={libraryError}
+              chooseDirectory={chooseDirectory}
             />
           </Route>
           <Route path="*">
-            <SingleSong />
+            <SingleSong
+              loading={libraryLoading}
+              chooseDirectory={chooseDirectory}
+            />
           </Route>
         </Switch>
       </MainWrapper>
-      <Player />
+      <Player loading={libraryLoading} />
     </AppWrapper>
   );
 };

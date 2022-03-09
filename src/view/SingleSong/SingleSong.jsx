@@ -4,16 +4,29 @@ import SongCover from '../../layout/MusicCover/MusicCover';
 import MusicInfo from '../../layout/MusicInfo/MusicInfo';
 import useActiveSongStore from '../../store/useActiveSongStore';
 import useListStore from '../../store/useListStore';
-import useChooseDirectory from '../../hooks/useChooseDirectory';
+import NoLibraryMessage from '../../layout/NoLibraryMessage/NoLibraryMessage';
+import { SearchIndicator, LoadingIndicatorWrapper, LoadingText } from '../../common/LoadingIndicator';
 
-const SingleSong = () => {
+const SingleSong = ({ chooseDirectory, loading }) => {
   const activeSong = useActiveSongStore((state) => state.activeSong.path);
   const songs = useListStore((state) => state.list.songs);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const chooseDirectory = useChooseDirectory({ setLoading, setError });
 
-  if(!activeSong) return <button onClick={chooseDirectory}>open</button>;
+  console.log(songs);
+
+  if(loading) {
+    return (
+      <LoadingIndicatorWrapper>
+        <SearchIndicator />
+        <LoadingText>Scanning folder..</LoadingText>
+      </LoadingIndicatorWrapper>
+    );
+  }
+
+  if(!activeSong) {
+    return (
+      <NoLibraryMessage chooseDirectory={chooseDirectory} />
+    );
+  }
 
   const targetSongIndex = songs.map((i) => i.path).indexOf(activeSong);
 

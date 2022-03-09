@@ -124,6 +124,13 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') { app.quit(); }
 });
 
+const emptyStore = () => {
+  store.delete('current_directory');
+  store.delete('current_files');
+  store.delete('active_song');
+  store.delete('sorting-settings');
+};
+
 const getFiles = async () => {
   const directory = await dialog.showOpenDialog(window, {
     properties: ['openDirectory'],
@@ -154,6 +161,14 @@ const getFiles = async () => {
   };
 
   let files = await scanRecursive(folder, [ignoreFunction]);
+
+  // If empty tell the renderer
+  if(files.length === 0) {
+    // Save folder location
+    emptyStore();
+
+    return { files: [], directory: '' };
+  }
 
   // get music metadata
   let filesInfo = files.map((item) => {
@@ -209,10 +224,6 @@ ipcMain.handle('first-render', async () => {
     files: currentFiles,
     sortingSettings,
   };
-});
-
-ipcMain.handle('save-list', async (sender, data) => {
-  // store.set('current_files', data);
 });
 
 ipcMain.handle('save-active-song', async (sender, data) => {
