@@ -15,6 +15,12 @@ export const TopSection = styled.div`
     pb-2
     justify-between
   `}
+
+  button {
+    ${tw`
+      font-semibold
+    `}
+  }
 `;
 
 export const LoadingIndicatorWrapper = styled.div`
