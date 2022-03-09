@@ -51,7 +51,16 @@ export const TableWrapper = styled.div`
       text-accent
       font-normal
       py-2
+      flex
+      items-center
     `}
+
+    span {
+      ${tw`
+        text-2xl
+        pl-[1px]
+      `}
+    }
   }
 
   tr{

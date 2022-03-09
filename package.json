@@ -2,8 +2,8 @@
   "name": "musica",
   "version": "0.0.0",
   "main": "electron/main/main.js",
-  "author" : "dominggo1999",
-  "description" : "Simple music player",
+  "author": "dominggo1999",
+  "description": "Simple music player",
   "scripts": {
     "dev": "concurrently \"npm run dev:vite\" \" npm run dev:electron\"",
     "dev:electron": "nodemon --watch electron/main --exec electron .",
@@ -13,7 +13,7 @@
     "pack": "npm run build:vite && electron-builder --dir --config.asar=false --win zip",
     "dist": "npm run build:vite && electron-builder --config.asar=false"
   },
-  "build" : {
+  "build": {
     "appId": "yourappid",
     "win": {
       "target": "NSIS"
@@ -32,6 +32,7 @@
     "immer": "^9.0.12",
     "music-metadata": "^7.12.2",
     "react": "^17.0.0",
+    "react-audio-spectrum2": "^0.1.8",
     "react-dom": "^17.0.0",
     "react-h5-audio-player": "^3.8.3",
     "react-icons": "^4.3.1",

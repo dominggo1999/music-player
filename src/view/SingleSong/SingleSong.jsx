@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SingleSongWrapper } from './SingleSong.style';
 import SongCover from '../../layout/MusicCover/MusicCover';
 import MusicInfo from '../../layout/MusicInfo/MusicInfo';
