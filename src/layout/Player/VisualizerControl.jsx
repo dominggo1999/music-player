@@ -32,7 +32,7 @@ const VisualizerControl = ({ audioRef: ref }) => {
     const dataArray = new Uint8Array(frqBits);
     const step = ((lineWidth + lineSpace) / dataArray.length) * (2 * Math.PI);
     const barLen = (canvWidth / 2) - r;
-    let angle = Math.PI * 1.5; // start from top
+    let angle = Math.PI * 1.7; // start from top
 
     canvasContext.current.clearRect(0, 0, canvWidth, canvHeight);
     canvasContext.current.fillStyle = 'rgba(14, 16, 17, 0)';

@@ -15,6 +15,7 @@ export default () => {
       emptyOutDir: true,
       rollupOptions: {},
     },
+    publicDir: 'public',
     server: {
       port: process.env.PORT === undefined ? 3000 : +process.env.PORT,
     },

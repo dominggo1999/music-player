@@ -2,15 +2,17 @@ import tw, { styled } from 'twin.macro';
 
 export const MusicInfoWrapper = styled.div`
   ${tw`
-    mt-16
     text-center
+    absolute
+    w-full
+    bottom-0
   `}
 `;
 
 export const Title = styled.div`
   ${tw`
-    text-2xl
-    mb-2
+    text-xl
+    truncate
   `}
 `;
 
@@ -18,5 +20,6 @@ export const Artist = styled.div`
   ${tw`
     text-darker-text
     text-lg
+    truncate
   `}
 `;

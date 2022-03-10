@@ -8,6 +8,9 @@ module.exports = {
         'light-text': '#FFFFFF',
         'darker-text': '#838BC5',
       },
+      fontFamily: {
+        yellowtail: ['Yellowtail', 'sans-serif'],
+      },
     },
   },
   plugins: [],

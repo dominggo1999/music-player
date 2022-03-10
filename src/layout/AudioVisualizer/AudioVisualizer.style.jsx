@@ -8,6 +8,8 @@ export const VisualizerWrapper = styled.div`
     z-[999]
     top-0 
     left-0
+    select-none 
+    pointer-events-none
   `}
 
   canvas{

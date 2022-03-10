@@ -5,8 +5,8 @@ const AudioVisualizer = () => {
   return (
     <VisualizerWrapper>
       <canvas
-        width={280 * (1 / 0.7)}
-        height={280 * (1 / 0.7)}
+        width={290 * (1 / 0.7)}
+        height={290 * (1 / 0.7)}
         id="audio-visualizer"
       >
       </canvas>

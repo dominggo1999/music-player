@@ -3,23 +3,72 @@ import tw, { styled } from 'twin.macro';
 export const Cover = styled.div`
   ${tw`
     rounded-full 
-    w-[250px]
+    w-[270px]
     mx-auto 
     relative
+    mt-6 
+    cursor-pointer
   `}
 
   aspect-ratio : 1/1;
-  box-shadow: rgba(0, 0, 0, 0.349) 0px 20px 25px -5px, rgba(0, 0, 0, 0.301) 0px 10px 10px -5px;
 
   img{
     ${tw`
-      w-full
-      h-full
+      w-[270px]
+      h-[270px]
       object-cover
       object-center
       rounded-full
       relative 
       z-50
+    `}
+  }
+
+  &:hover {
+    p:nth-of-type(1){
+      ${tw`
+        hidden
+      `}
+    }
+
+    p:nth-of-type(2){
+      ${tw`
+        block
+      `}
+    }
+  }
+`;
+
+export const PlaceholderContent = styled.div`
+  ${tw`
+    absolute 
+    bg-red-500
+    left-1/2 
+    top-1/2
+    -translate-x-1/2
+    -translate-y-1/2
+    z-[50]
+    rounded-full
+    bg-accent
+    w-1/2 
+    h-1/2
+    font-yellowtail 
+    flex 
+    justify-center 
+    items-center 
+    text-3xl 
+    text-primary
+    font-medium 
+    select-none
+  `}
+
+  p{
+    transform : rotate(-3deg);
+  }
+  
+  p:nth-of-type(2){
+    ${tw`
+      hidden
     `}
   }
 `;
