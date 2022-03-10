@@ -9,6 +9,9 @@ import Library from './view/Library/Library';
 import useActiveSongStore from './store/useActiveSongStore';
 import useListStore from './store/useListStore';
 import useChooseDirectory from './hooks/useChooseDirectory';
+import Settings from './view/Settings/Settings';
+import { userSettingsSelector } from './store/useUserSettingsStore';
+import BackgroundImage from './layout/BackgroundImage/BackgroundImage';
 
 const App = () => {
   const { send, receive } = window.api;
@@ -26,6 +29,8 @@ const App = () => {
   const updateOrder = useListStore((state) => state.updateOrder);
   const sort = useListStore((state) => state.sort);
   const chooseDirectory = useChooseDirectory({ setLoading: setLibraryLoading, setError: setLibraryError });
+  const settingsReceived = userSettingsSelector('settingsReceived');
+  const settings = userSettingsSelector('settings');
 
   useEffect(() => {
     const getSavedData = async () => {
@@ -72,8 +77,22 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const getSettings = async () => {
+      const userSettings = await send('get-user-settings');
+      settingsReceived(userSettings);
+    };
+
+    getSettings();
+  }, []);
+
+  if(Object.keys(settings).length === 0) {
+    return null;
+  }
+
   return (
     <AppWrapper>
+      {/* <BackgroundImage /> */}
       <MainWrapper>
         <Header />
         <Switch>
@@ -95,11 +114,11 @@ const App = () => {
               chooseDirectory={chooseDirectory}
             />
           </Route>
+          <Route path="/settings">
+            <Settings />
+          </Route>
           <Route path="*">
-            <SingleSong
-              loading={libraryLoading}
-              chooseDirectory={chooseDirectory}
-            />
+            Not Found
           </Route>
         </Switch>
       </MainWrapper>

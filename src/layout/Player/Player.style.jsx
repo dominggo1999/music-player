@@ -7,7 +7,7 @@ export const PlayerWrapper = styled.div`
     bottom-0
     w-full
     left-0 
-    bg-primary
+    bg-transparent
   `}
 
   .rhap_container{

@@ -1,6 +1,4 @@
-const { ipcRenderer, contextBridge } = require('electron');
-
-const path = require('path');
+const { ipcRenderer, contextBridge, app } = require('electron');
 
 const validChannels = [
   'get-files',
@@ -10,6 +8,8 @@ const validChannels = [
   'save-active-song',
   'get-sorting-settings',
   'save-sorting-settings',
+  'get-user-settings',
+  'save-user-settings',
 ];
 
 const api = {

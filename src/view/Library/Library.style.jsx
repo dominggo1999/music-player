@@ -11,7 +11,7 @@ export const LibraryWrapper = styled.div`
 export const TopSection = styled.div`
   ${tw`
     flex
-    bg-primary
+    bg-transparent
     pb-2
     justify-between
   `}

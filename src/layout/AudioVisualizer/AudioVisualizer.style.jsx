@@ -5,7 +5,6 @@ export const VisualizerWrapper = styled.div`
     absolute 
     w-full 
     h-full 
-    z-[999]
     top-0 
     left-0
     select-none 
@@ -15,6 +14,7 @@ export const VisualizerWrapper = styled.div`
   canvas{
     ${tw`
       absolute
+      z-[999]
     `}
     top : 50%;
     left: 50%;

@@ -7,6 +7,8 @@ export const MainWrapper = styled.div`
     mx-auto
     w-full
     text-light-text
+    relative 
+    z-[100]
   `}
 
   height : calc(100% - 120px);

@@ -12,19 +12,21 @@ const CustomStyles = createGlobalStyle`
 
   @font-face {
     font-family: 'Yellowtail';
-    src: url('/Yellowtail.woff2') format('woff2'),
-        url('/Yellowtail.woff') format('woff');
+    src: url('./Yellowtail.woff2') format('woff2'),
+        url('./Yellowtail.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 `;
 
-const GlobalStyles = () => (
-  <>
-    <BaseStyles />
-    <CustomStyles />
-  </>
-);
+const GlobalStyles = () => {
+  return (
+    <>
+      <BaseStyles />
+      <CustomStyles />
+    </>
+  );
+};
 
 export default GlobalStyles;

@@ -108,9 +108,9 @@ app.whenReady().then(() => {
 app.on('ready', () => {
   // Disable devtools on build
   if(!isDev) {
-    globalShortcut.register('Control+Shift+I', () => {
-      return false;
-    });
+    // globalShortcut.register('Control+Shift+I', () => {
+    //   return false;
+    // });
     globalShortcut.register('Control+R', () => {
       return false;
     });
@@ -237,4 +237,26 @@ ipcMain.handle('save-sorting-settings', async (sender, data) => {
 ipcMain.handle('get-sorting-settings', async (sender) => {
   const sortingSettings = store.get('sorting-settings');
   return sortingSettings;
+});
+
+const defaultUserSettings = {
+  theme: 'default',
+  backgroundImage: false,
+  imageLocation: '',
+  overlay: 0.6,
+};
+
+ipcMain.handle('get-user-settings', async (sender) => {
+  const userSettings = store.get('user_settings');
+
+  if(!userSettings) {
+    store.set('user_settings', defaultUserSettings);
+    return defaultUserSettings;
+  }
+
+  return userSettings;
+});
+
+ipcMain.handle('save-user-settings', async (sender, data) => {
+  store.set('user_settings', data);
 });

@@ -12,6 +12,10 @@ export const Cover = styled.div`
 
   aspect-ratio : 1/1;
 
+  &:active{
+    transform : scale(1.01);
+  }
+
   img{
     ${tw`
       w-[270px]
@@ -69,6 +73,19 @@ export const PlaceholderContent = styled.div`
   p:nth-of-type(2){
     ${tw`
       hidden
+    `}
+  }
+
+  img{
+    ${tw`
+      w-full
+      h-full
+      object-cover
+      object-center
+      rounded-full
+      relative 
+      z-50
+      absolute
     `}
   }
 `;
