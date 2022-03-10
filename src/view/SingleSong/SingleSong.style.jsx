@@ -4,6 +4,6 @@ export const SingleSongWrapper = styled.div`
   ${tw`
     flex
     flex-col
-    mt-4
+    mt-10
   `}
 `;

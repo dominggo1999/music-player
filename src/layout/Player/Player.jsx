@@ -1,11 +1,12 @@
 import React, {
-  createRef, useEffect, useMemo, useState,
+  createRef, useEffect, useMemo, useRef, useState,
 } from 'react';
 import AudioPlayer from 'react-h5-audio-player';
 import { PlayerWrapper } from './Player.style';
 import 'react-h5-audio-player/lib/styles.css';
 import useActiveSongStore from '../../store/useActiveSongStore';
 import useListStore from '../../store/useListStore';
+import VisualizerControl from './VisualizerControl';
 
 const Player = ({ loading }) => {
   const activeSong = useActiveSongStore((state) => state.activeSong.path);
@@ -15,7 +16,7 @@ const Player = ({ loading }) => {
   const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
   const [shouldUpdateAutoPlay, setShouldUpdateAutoPlay] = useState(false);
 
-  const audioRef = createRef();
+  const audioRef = useRef();
 
   const order = useListStore((state) => state.list.order);
   const sortedBy = useListStore((state) => state.list.sortedBy);
@@ -34,6 +35,11 @@ const Player = ({ loading }) => {
     const nextSongPath = order[nextSongId];
 
     updateActiveSong(nextSongPath);
+
+    const audioElement = audioRef.current.audio.current;
+    if(audioElement?.paused) {
+      updateAutoplay(false);
+    }
   };
 
   const previousSong = () => {
@@ -50,6 +56,10 @@ const Player = ({ loading }) => {
     const prevSongPath = order[prevSongId];
 
     updateActiveSong(prevSongPath);
+    const audioElement = audioRef.current.audio.current;
+    if(audioElement?.paused) {
+      updateAutoplay(false);
+    }
   };
 
   const handleEnded = () => {
@@ -57,6 +67,7 @@ const Player = ({ loading }) => {
   };
 
   const handlePlay = () => {
+    updateAutoplay(true);
     updateIsPlay(true);
     setShouldUpdateAutoPlay(true);
   };
@@ -86,6 +97,7 @@ const Player = ({ loading }) => {
           onPause={!loading ? handlePause : () => {}}
           ref={audioRef}
         />
+        <VisualizerControl audioRef={audioRef} />
       </PlayerWrapper>
     );
   },

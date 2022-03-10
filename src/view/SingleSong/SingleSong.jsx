@@ -11,8 +11,6 @@ const SingleSong = ({ chooseDirectory, loading }) => {
   const activeSong = useActiveSongStore((state) => state.activeSong.path);
   const songs = useListStore((state) => state.list.songs);
 
-  console.log(songs);
-
   if(loading) {
     return (
       <LoadingIndicatorWrapper>

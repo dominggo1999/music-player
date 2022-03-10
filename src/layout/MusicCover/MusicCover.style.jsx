@@ -3,7 +3,7 @@ import tw, { styled } from 'twin.macro';
 export const Cover = styled.div`
   ${tw`
     rounded-full 
-    w-[300px]
+    w-[250px]
     mx-auto 
     relative
   `}
@@ -18,6 +18,8 @@ export const Cover = styled.div`
       object-cover
       object-center
       rounded-full
+      relative 
+      z-50
     `}
   }
 `;

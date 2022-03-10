@@ -84,8 +84,6 @@ const LibraryTable = ({ playlist, sortingSettings, query }) => {
       sort(state.sortBy[0] || {});
 
       const playlistOrdered = sortedRows.map((i) => i.original);
-      // Save order
-      send('save-list', playlistOrdered);
 
       // Update "order" global state
       updateOrder(playlistOrdered.map((i) => i.path));

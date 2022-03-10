@@ -2,7 +2,7 @@ import tw, { styled } from 'twin.macro';
 
 export const MusicInfoWrapper = styled.div`
   ${tw`
-    mt-6
+    mt-16
     text-center
   `}
 `;

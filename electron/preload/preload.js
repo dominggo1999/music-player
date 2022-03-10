@@ -10,7 +10,6 @@ const validChannels = [
   'save-active-song',
   'get-sorting-settings',
   'save-sorting-settings',
-  'save-list',
 ];
 
 const api = {
