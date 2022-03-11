@@ -36,7 +36,6 @@ const useChooseDirectory = ({ setLoading, setError }) => {
         send('save-sorted-index', defaultSortedIndex);
       }
     } catch (error) {
-      console.log(error);
       setError(error);
     }finally{
       setLoading(false);

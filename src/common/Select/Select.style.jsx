@@ -7,7 +7,7 @@ export const SingleSelectWrapper = styled.div`
   `}
   .react-select-container{
     ${tw`
-      w-40
+      w-48
     `}
   }
   

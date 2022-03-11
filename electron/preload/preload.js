@@ -10,6 +10,7 @@ const validChannels = [
   'save-sorting-settings',
   'get-user-settings',
   'save-user-settings',
+  'choose-background-image',
 ];
 
 const api = {

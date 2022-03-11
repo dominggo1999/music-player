@@ -88,7 +88,7 @@ const VisualizerControl = ({ audioRef: ref }) => {
         mainLoop();
       }
     }else{
-      audioContext.current.resume();
+      audioContext.current?.resume();
     }
   };
 

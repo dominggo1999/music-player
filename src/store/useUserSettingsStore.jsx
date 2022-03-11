@@ -9,7 +9,10 @@ const saveSettings = async (settings) => {
 const changeSettings = (set, get, key, value) => {
   return set(produce((draft) => {
     draft.settings[key] = value;
-    saveSettings(get().settings);
+    saveSettings({
+      ...get().settings,
+      [key]: value,
+    });
   }));
 };
 

@@ -8,6 +8,7 @@ const {
   nativeTheme,
   dialog,
   globalShortcut,
+  crashReporter,
 } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
@@ -86,6 +87,13 @@ function createWindow() {
     window.close();
   });
 }
+
+if(isDev) {
+  // Crash reporter
+  // console.log(app.getPath('crashDumps'));
+  crashReporter.start({ submitURL: '', uploadToServer: false });
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -128,7 +136,8 @@ const emptyStore = () => {
   store.delete('current_directory');
   store.delete('current_files');
   store.delete('active_song');
-  store.delete('sorting-settings');
+  store.delete('sorting_settings');
+  store.delete('user_settings');
 };
 
 const getFiles = async () => {
@@ -142,6 +151,8 @@ const getFiles = async () => {
       canceled: true,
     };
   }
+
+  console.log('q');
   // If directory is chosen tell renderer to trigger loading indicator
   window.webContents.send('scanning-folder', 'scanning-folder');
 
@@ -235,13 +246,12 @@ ipcMain.handle('save-sorting-settings', async (sender, data) => {
 });
 
 ipcMain.handle('get-sorting-settings', async (sender) => {
-  const sortingSettings = store.get('sorting-settings');
+  const sortingSettings = store.get('sorting_settings');
   return sortingSettings;
 });
 
 const defaultUserSettings = {
   theme: 'default',
-  backgroundImage: false,
   imageLocation: '',
   overlay: 0.6,
 };
@@ -259,4 +269,25 @@ ipcMain.handle('get-user-settings', async (sender) => {
 
 ipcMain.handle('save-user-settings', async (sender, data) => {
   store.set('user_settings', data);
+});
+
+ipcMain.handle('choose-background-image', async (sender) => {
+  const imageFile = await dialog.showOpenDialog(window, {
+    properties: ['openFile'],
+    filters: [
+      { name: 'Images', extensions: ['jpg', 'png', 'gif', 'jpeg'] },
+    ],
+  });
+
+  if(imageFile.canceled) {
+    return {
+      canceled: true,
+    };
+  }
+
+  const imageLocation = imageFile.filePaths[0];
+
+  return {
+    imageLocation: path.basename(imageLocation),
+  };
 });
