@@ -11,6 +11,10 @@ export const ImageWrapper = styled.div`
     bg-cover 
     bg-center
     bg-primary
+    transition 
+    transition-bg
+    ease-out-sine
+    duration-400
   `}
 
 
