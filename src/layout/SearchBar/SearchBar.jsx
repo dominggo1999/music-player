@@ -17,6 +17,7 @@ const SearchBar = ({ changeQuery, query }) => {
         onChange={(e) => changeQuery(e.target.value)}
         type="text"
         placeholder="Search song"
+        spellCheck={false}
       />
     </StyledSearchBar>
   );

@@ -8,6 +8,7 @@ export const Cover = styled.div`
     relative
     mt-6 
     cursor-pointer
+    select-none
   `}
 
   aspect-ratio : 1/1;

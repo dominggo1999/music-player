@@ -4,7 +4,7 @@ import AudioVisualizer from '../AudioVisualizer/AudioVisualizer';
 import useActiveSongStore from '../../store/useActiveSongStore';
 
 const MusicCover = ({ cover }) => {
-  const songCover = cover || './cover-placeholder.png';
+  const vinyl = './cover-placeholder.png';
   const isPlaying = useActiveSongStore((state) => state.activeSong.isPlay);
 
   const handleClick = () => {
@@ -19,19 +19,27 @@ const MusicCover = ({ cover }) => {
   return (
     <Cover onClick={handleClick}>
       <img
-        src={songCover}
+        src={vinyl}
         alt=""
       />
-      {!cover && (
       <PlaceholderContent>
-        <p>
-          GeWxEe
-        </p>
-        <p>
-          {isPlaying ? '- Pause -' : '- Play -'}
-        </p>
+        {!cover ? (
+          <>
+            <p>
+              GeWxEe
+            </p>
+            <p>
+              {isPlaying ? '- Pause -' : '- Play -'}
+            </p>
+          </>
+        )
+          : (
+            <img
+              src={cover}
+              alt="Cover"
+            />
+          )}
       </PlaceholderContent>
-      )}
       <AudioVisualizer />
     </Cover>
   );
