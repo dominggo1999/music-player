@@ -15,7 +15,7 @@ export const SingleSelectWrapper = styled.div`
   .react-select__input-container{
     ${tw`
       font-semibold
-      text-white
+      text-accent
     `}
   }
   .react-select__control{
@@ -75,7 +75,43 @@ export const SingleSelectWrapper = styled.div`
     ${tw`
       p-0
     `}
+
+    &::-webkit-scrollbar {
+    ${tw`
+        bg-primary
+      `}
+    }
+
+    &::-webkit-scrollbar-track {
+      ${tw`
+        bg-transparent
+      `}
+    }
+
+    &::-webkit-scrollbar {
+      ${tw`
+        w-[8px]
+        bg-transparent
+      `}
+    }
+
+    &::-webkit-scrollbar-thumb {
+      ${tw`
+        rounded-full
+        w-[8px]
+        bg-transparent
+      `}
+    }
+
+    ::-webkit-scrollbar-thumb{
+    ${tw`
+        bg-accent
+      `}
+    }
   }
+
+
+
   .react-select__option{
     ${tw`
       bg-none
@@ -100,7 +136,7 @@ export const SingleSelectWrapper = styled.div`
   /* No options */
   .react-select__menu-notice.react-select__menu-notice--no-options{
     ${tw`
-      text-primary 
+      text-accent
     `}
   }
 `;
