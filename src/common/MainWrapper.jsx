@@ -6,7 +6,7 @@ export const MainWrapper = styled.div`
     flex-col
     mx-auto
     w-full
-    text-light-text
+    text-main-text
     relative 
     z-[100]
   `}

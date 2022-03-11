@@ -1,0 +1,383 @@
+.originale {
+  --accent: #FFC931;
+  --accentHover: #ffd04e;
+  --primary: #131646;
+  --primaryHover: #272b61;
+  --mainText: #FFFFFF;
+  --secondaryText: #838BC5;
+  --playerDownloadProgress: #f3d276;
+}
+
+/* Matrix */
+.matrix{
+  --accent: #15FF00;
+  --accentHover: #71f366;
+  --primary: #000000;
+  --primaryHover: #131a12;
+  --mainText: #ADFFA7;
+  --secondaryText: #4e9449;
+  --playerDownloadProgress: #92f089;
+}
+
+/* Sakura latte */
+.sakura-latte{ 
+  --accent: #50363b;
+  --accentHover: #5c363c;
+  --primary: #d67788;
+  --primaryHover: #be6a76;
+  --mainText: #ffffff;
+  --secondaryText: #f3ccd3;
+  --playerDownloadProgress: #f8a6b3;
+}
+
+/* Naranja*/
+.naranja{ 
+  --accent: #FE6F27;
+  --accentHover: #f88449;
+  --primary: #2F2F2F;
+  --primaryHover:#5c4c48;
+  --mainText: #ffffff;
+  --secondaryText: #e0baaa;
+  --playerDownloadProgress: #f8af8a;
+}
+
+/* Crayola */
+.crayola{ 
+  --accent: #681538;
+  --accentHover: #692c46;
+  --primary: #e49069;
+  --primaryHover:#c97d5a;
+  --mainText: #ffffff;
+  --secondaryText: #e0baaa;
+  --playerDownloadProgress: #ffccb5;
+}
+
+ .legend-of-blue{ 
+  --accent: #5468b3;
+  --accentHover: #5572d8;
+  --primary: #ABDBE6;
+  --primaryHover:#a0c5cc;
+  --mainText: #4b596b;
+  --secondaryText: #707dac;
+  --playerDownloadProgress: #9badee;
+}
+
+/* test-2 */
+.azura{ 
+  --accent: #FEC72D;
+  --accentHover: #f7d883;
+  --primary: #3a75db;
+  --primaryHover:#3f619c;
+  --mainText: #d2e0f3;
+  --secondaryText: #9cb4d8;
+  --playerDownloadProgress: #f0d58c;
+}
+
+/* lavanda */
+.lavanda{ 
+  --accent: #C699CF;
+  --accentHover: #daa9e4;
+  --primary: #60067D;
+  --primaryHover:#733388;
+  --mainText: #fde5fc;
+  --secondaryText: #e7b3e6;;
+  --playerDownloadProgress: #eab6f5;
+}
+
+/* mauve */
+.mauve{ 
+  --accent: #A4E8CC;
+  --accentHover: #b7fade;
+  --primary: #591FBF;
+  --primaryHover: #6f3ac9;;
+  --mainText: #f2fffa;
+  --secondaryText: #c3abee;;
+  --playerDownloadProgress: #d5e4de;
+}
+
+/* burgundy */
+.burgundy{ 
+  --accent: #993241;
+  --accentHover: #ce3a50;
+  --primary: #FCB6B0;
+  --primaryHover: #e28f88;;
+  --mainText: #471d24;
+  --secondaryText: #834d56;;
+  --playerDownloadProgress: #fde4e2;
+}
+
+/* natur */
+.natur{ 
+  --accent: #585001;
+  --accentHover: #423c05;
+  --primary: #A4852B;
+  --primaryHover: #b19544;;
+  --mainText: #363016;
+  --secondaryText: #524b2f;;
+  --playerDownloadProgress: #e6d286;
+}
+
+/* mustard */
+.mustard{ 
+  --accent: #50a760;
+  --accentHover: #4ba55c;
+  --primary: #FFD859;
+  --primaryHover: #e2c668;;
+  --mainText: #293253;
+  --secondaryText: #515d88;;
+  --playerDownloadProgress: #e2c257;
+}
+
+/* old lavender */
+.old-lavender{ 
+  --accent: #BBACC1;
+  --accentHover: #dbcce0;
+  --primary: #80727B;
+  --primaryHover: #6d6068;;
+  --mainText: #ebe2ee;
+  --secondaryText: #b49fbb;;
+  --playerDownloadProgress: #e1d7e6;
+}
+
+/* camouflage */
+.camouflage{ 
+  --accent: #909580;
+  --accentHover: #b8bda7;
+  --primary: #545643;
+  --primaryHover: #2e3021;;
+  --mainText: #dee2d2;
+  --secondaryText: #bec9a0;;
+  --playerDownloadProgress: #e2ecc3;
+}
+
+/* Charcoal */
+.charcoal{ 
+  --accent: #a5998a;
+  --accentHover: #d3c1ac;
+  --primary: #3A445D;
+  --primaryHover: #232c41;;
+  --mainText: #eeecd0;
+  --secondaryText: #b4a799;;
+  --playerDownloadProgress: #e7dcce;
+}
+
+/* Zomp */
+.zomp{ 
+  --accent: #339989;
+  --accentHover: #52ccba;
+  --primary: #131515;
+  --primaryHover: #1b2525;;
+  --mainText: #D6D5C9;
+  --secondaryText: #86948f;;
+  --playerDownloadProgress: #d0fdf6;
+}
+
+/* rose and you */
+.rose-and-you{ 
+  --accent: #540D6E;
+  --accentHover: #6b2585;
+  --primary: #EE4266;
+  --primaryHover: #ee5d7c;
+  --mainText: #B2E4DB;
+  --secondaryText: #d1c2cf;;
+  --playerDownloadProgress: #fa90a7;
+}
+
+/* el rojo */
+.el-rojo{ 
+  --accent: #f09cc4;
+  --accentHover: #f080b6;
+  --primary: #FD151B;
+  --primaryHover: #f7444a;
+  --mainText: #EDF7D2;
+  --secondaryText: #e6bdbd;;
+  --playerDownloadProgress: #f8c3cf;
+}
+
+
+ /* uzumaki */
+ .uzumaki{ 
+  --accent: #18191D;
+  --accentHover: #000000;
+  --primary: #BE5B13;
+  --primaryHover: #ce6c25;
+  --mainText: #ecf599;
+  --secondaryText: #ccc3b2;;
+  --playerDownloadProgress: #dfa070;
+}
+
+ /* roronoa */
+ .roronoa{ 
+  --accent: #9ADA62;
+  --accentHover: #b4ff71;
+  --primary: #2B4D26;
+  --primaryHover: #486d42;
+  --mainText: #c5f8b1;
+  --secondaryText: #88a57d;;
+  --playerDownloadProgress: #cff3b0;
+}
+
+
+/* let there be light */
+.let-there-be-light{ 
+  --accent: #000000;
+  --accentHover: #3a3a3a;
+  --primary: #ffffff;
+  --primaryHover: #d8d8d8;
+  --mainText: #313131;
+  --secondaryText: #88a57d;;
+  --playerDownloadProgress: #cff3b0;
+}
+
+/* let there be dark */
+.let-there-be-dark{ 
+  --accent: #ffffff;
+  --accentHover: #3a3a3a;
+  --primary: #000000;
+  --primaryHover: #161616;
+  --mainText: #c9c9c9;
+  --secondaryText: #515a4e;
+  --playerDownloadProgress: #5f5f5f;
+}
+
+/* xepia */
+.xepia{ 
+  --accent:  #ffbc9a;
+  --accentHover: #f8ccb6;
+  --primary: #352E28;
+  --primaryHover: #685543;
+  --mainText: #D3B8A5;
+  --secondaryText: #a09892;
+  --playerDownloadProgress: #ccc3bc;
+}
+
+/* romanza */
+.romanza{ 
+  --accent:  #d86384;
+  --accentHover: #bb516f;
+  --primary: #7E092C;
+  --primaryHover: #b81b4a;
+  --mainText: #ecc9e2;
+  --secondaryText: #a0929e;
+  --playerDownloadProgress: #dd98ab;
+}
+
+/* black and pink */
+.black-and-pink{ 
+  --accent:  #FF59C7;
+  --accentHover: #fc7cd1;
+  --primary: #000000;
+  --primaryHover: #221d1f;
+  --mainText: #ffe0fe;
+  --secondaryText: #775372;
+  --playerDownloadProgress: #725d6b;
+}
+
+/* earth society*/
+.earth-society{ 
+  --accent:  #169b33;
+  --accentHover: #4abe64;
+  --primary: #18335E;
+  --primaryHover: #112038;
+  --mainText: #a5c7ee;
+  --secondaryText: #8599af;;
+  --playerDownloadProgress: #b3f7c2;
+}
+
+/* martian weather */
+.martian-weather{ 
+  --accent:  #cf5e35;
+  --accentHover: #db7652;
+  --primary: #832324;
+  --primaryHover: #8f3132;
+  --mainText: #DE8F44;
+  --secondaryText: #a17041;;
+  --playerDownloadProgress: #fddb91;
+}
+
+/* sunset story */
+.sunset-story{ 
+  --accent:  #f8b785;
+  --accentHover: #FDF7D4;
+  --primary: #E17E5E;
+  --primaryHover: #ad6148;
+  --mainText: #FDF7D4;
+  --secondaryText: #f3e9b1;;
+  --playerDownloadProgress: #FCFFFB;
+}
+
+/* lemonia */
+.lemonia{ 
+  --accent:  #103F23;
+  --accentHover: #246d41;
+  --primary: #E9B103;
+  --primaryHover: #cfa62a;
+  --mainText: #ffffff;
+  --secondaryText: #e4dfcd;
+  --playerDownloadProgress: #f3f1eb;
+}
+
+/* ktbffh */
+.ktbffh{ 
+  --accent:  #CBCCD0;
+  --accentHover: #a8abb8;
+  --primary: #03448F;
+  --primaryHover: #063366;
+  --mainText: #ffffff;
+  --secondaryText: #b1afa8;
+  --playerDownloadProgress: #ffffff;;
+}
+
+/* melonisti */
+.melonisti{ 
+  --accent:  #BFDA57;
+  --accentHover:#d2e77b;
+  --primary: #549E44;
+  --primaryHover: #4a863b;
+  --mainText: #ffffff;
+  --secondaryText: #e4e6cf;
+  --playerDownloadProgress: #f5fccf;;
+}
+
+/* pastello */
+.pastello{ 
+  --accent:  #D7A29E;
+  --accentHover:#c58884;
+  --primary: #595A6D;
+  --primaryHover: #454658;
+  --mainText: #ABC9BD;
+  --secondaryText: #8ca39b;
+  --playerDownloadProgress: #ABC9BD;;
+}
+
+/* nostalgiapedia */
+.nostalgiapedia{ 
+  --accent:#4B6359;
+  --accentHover:#507464;
+  --primary: #EFA45B;
+  --primaryHover: #ca8d4f;
+  --mainText: #ffffff;
+  --secondaryText: #796f68;
+  --playerDownloadProgress: #f7efe6;;
+}
+
+/* faded */
+.faded{ 
+  --accent:#428CB5;
+  --accentHover:#569ec5;
+  --primary: #01071B;
+  --primaryHover: #020f3a;
+  --mainText: #A9DCD2;
+  --secondaryText: #53615e;
+  --playerDownloadProgress: #f5f3fc;
+}
+
+.stormy-green{ 
+  --accent:#B7687F;
+  --accentHover:#d64f75;
+  --primary: #0B2B36;
+  --primaryHover: #051a20;
+  --mainText: #CCBFB6;
+  --secondaryText: #a5a5a5;
+  --playerDownloadProgress: #b1a9af;
+}

@@ -5,6 +5,7 @@ import { TableWrapper } from './LibraryTable.style';
 import useListStore from '../../store/useListStore';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
+import { userSettingsSelector } from '../../store/useUserSettingsStore';
 
 const sortDuration = (rowA, rowB, id, desc) => {
   const durationA = rowA.original.duration;
@@ -17,6 +18,7 @@ const sortDuration = (rowA, rowB, id, desc) => {
 
 const LibraryTable = ({ playlist, sortingSettings, query }) => {
   const updateOrder = useListStore((state) => state.updateOrder);
+  const bg = userSettingsSelector('settings', 'imageLocation');
 
   const { send } = window.api;
   const [firstRenderFinished, setFirstRenderFinished] = useState(false);
@@ -98,7 +100,7 @@ const LibraryTable = ({ playlist, sortingSettings, query }) => {
   }, []);
 
   return (
-    <TableWrapper>
+    <TableWrapper bg={bg}>
       <table {...getTableProps()}>
         <TableHeader headerGroups={headerGroups} />
         <TableBody

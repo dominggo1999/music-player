@@ -12,6 +12,8 @@ import useChooseDirectory from './hooks/useChooseDirectory';
 import Settings from './view/Settings/Settings';
 import { userSettingsSelector } from './store/useUserSettingsStore';
 import BackgroundImage from './layout/BackgroundImage/BackgroundImage';
+import './themes/themes.css';
+import useThemeStore from './store/useThemeStore';
 
 const App = () => {
   const { send, receive } = window.api;
@@ -31,6 +33,9 @@ const App = () => {
   const chooseDirectory = useChooseDirectory({ setLoading: setLibraryLoading, setError: setLibraryError });
   const settingsReceived = userSettingsSelector('settingsReceived');
   const settings = userSettingsSelector('settings');
+
+  const changeTheme = useThemeStore((state) => state.changeTheme);
+  const theme = useThemeStore((state) => state.theme.name);
 
   useEffect(() => {
     const getSavedData = async () => {
@@ -81,6 +86,9 @@ const App = () => {
     const getSettings = async () => {
       const userSettings = await send('get-user-settings');
       settingsReceived(userSettings);
+
+      const { theme } = userSettings;
+      changeTheme(theme);
     };
 
     getSettings();
@@ -91,8 +99,11 @@ const App = () => {
   }
 
   return (
-    <AppWrapper>
-      {/* <BackgroundImage /> */}
+    <AppWrapper
+      id="appWrapper"
+      className={theme}
+    >
+      <BackgroundImage />
       <MainWrapper>
         <Header />
         <Switch>

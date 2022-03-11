@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { IoIosClose } from 'react-icons/io';
@@ -6,42 +7,67 @@ import {
 } from './Settings.style';
 import Select from '../../common/Select/Select';
 import { userSettingsSelector } from '../../store/useUserSettingsStore';
+import unformattedThemes from '../../themes/themes.json';
+import useThemeStore from '../../store/useThemeStore';
 
-const themes = [
-  { value: 'default', label: 'Default' },
-  { value: 'blue-origin', label: 'Blue Origin' },
-  { value: 'red', label: 'Red' },
-];
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+const formatThemes = (themes) => {
+  return themes.map((item) => {
+    let label = item.name.replaceAll('-', ' ');
+    label = capitalizeFirstLetter(label);
+    return {
+      label,
+      value: item.name,
+    };
+  }).sort((a, b) => {
+    return a.label.localeCompare(b.label);
+  });
+};
+
+const formattedThemes = formatThemes(unformattedThemes);
 
 const Settings = () => {
   const { send } = window.api;
-  const changeSettings = userSettingsSelector('changeSettings');
+  const saveSettings = userSettingsSelector('changeSettings');
   const theme = userSettingsSelector('settings', 'theme');
   const imageLocation = userSettingsSelector('settings', 'imageLocation');
   const overlay = userSettingsSelector('settings', 'overlay');
+  const changeTheme = useThemeStore((state) => state.changeTheme);
 
   const handleChangeTheme = (e) => {
     const newValue = e.value;
-    changeSettings('theme', newValue);
+    saveSettings('theme', newValue);
+    changeTheme(newValue);
   };
 
   const chooseBackgroundImage = async () => {
     const { imageLocation, canceled } = await send('choose-background-image');
 
     if(!canceled) {
-      changeSettings('imageLocation', imageLocation);
+      saveSettings('imageLocation', imageLocation);
     }
   };
 
   const handleFileIconClick = (e) => {
     imageLocation && e.stopPropagation();
     if(!imageLocation) return;
-    changeSettings('imageLocation', '');
+    saveSettings('imageLocation', '');
   };
 
   const changeOverlayLevel = (e) => {
-    const newValue = parseInt(e.target.value, 10);
-    changeSettings('overlay', newValue);
+    let strValue = e.target.value;
+    strValue = Number(strValue).toString();
+
+    const val = parseInt(strValue, 10);
+
+    if(val > 100) {
+      saveSettings('overlay', 100);
+    }else {
+      saveSettings('overlay', val);
+    }
   };
 
   return (
@@ -51,7 +77,7 @@ const Settings = () => {
           <OptionLabel>Select Theme</OptionLabel>
           <Select
             value={theme}
-            options={themes}
+            options={formattedThemes}
             labelKey="label"
             valueKey="value"
             name="select-theme"
@@ -85,9 +111,9 @@ const Settings = () => {
                 <input
                   onChange={changeOverlayLevel}
                   type="number"
-                  value={overlay}
-                  min={0}
-                  max={100}
+                  value={`${overlay}`}
+                  min="0"
+                  max="100"
                 />
                 <Percentage>%</Percentage>
               </LevelWrapper>

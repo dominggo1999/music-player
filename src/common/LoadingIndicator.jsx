@@ -61,6 +61,6 @@ export const LoadingIndicatorWrapper = styled.div`
 export const LoadingText = styled.span`
   ${tw`
     mt-4 
-    text-light-text
+    text-main-text
   `}
 `;

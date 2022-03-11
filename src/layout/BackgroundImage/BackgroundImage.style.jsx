@@ -10,16 +10,33 @@ export const ImageWrapper = styled.div`
     bg-no-repeat
     bg-cover 
     bg-center
+    bg-primary
   `}
 
-  background-image: url("https://images.pexels.com/photos/5845255/pexels-photo-5845255.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+
+  img {
+    ${tw`
+      fixed  
+      top-0 
+      left-0
+      z-20 
+      w-full 
+      h-full 
+      object-cover 
+      object-center
+    `}
+  }
 `;
 
 export const Overlay = styled.div`
   ${tw`
     bg-black
-    h-full 
+    fixed  
+    top-0 
+    left-0
+    z-[21] 
     w-full 
-    opacity-60
+    h-full 
+    fixed
   `}
 `;

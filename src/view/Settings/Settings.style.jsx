@@ -36,6 +36,7 @@ export const ChooseFileButton = styled.button`
     relative 
     py-2
     bg-accent 
+    hover:bg-accent-hover
     rounded-sm
     text-primary 
     font-semibold   
@@ -70,7 +71,7 @@ export const FileIcon = styled.div`
     justify-end
   `}
 
-  ${({ bg }) => bg && tw`hover:bg-red-500`}
+  ${({ bg }) => bg && tw`hover:bg-accent-hover`}
 `;
 
 export const LevelWrapper = styled.div`
@@ -84,7 +85,7 @@ export const LevelWrapper = styled.div`
       flex
       w-full
       bg-transparent 
-      text-light-text
+      text-main-text
       outline-none
       border-2 
       border-accent 

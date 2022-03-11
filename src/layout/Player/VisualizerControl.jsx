@@ -19,6 +19,7 @@ const VisualizerControl = ({ audioRef: ref }) => {
   const animationId = useRef();
 
   const mainLoop = () => {
+    const barColor = getComputedStyle(document.querySelector('#appWrapper')).getPropertyValue('--accent');
     const canvWidth = canvasElement.current.width;
     const canvHeight = canvasElement.current.height;
 
@@ -41,7 +42,7 @@ const VisualizerControl = ({ audioRef: ref }) => {
     analyser.current.getByteFrequencyData(dataArray);
 
     canvasContext.current.lineWidth = 2;
-    canvasContext.current.strokeStyle = '#FFC931';
+    canvasContext.current.strokeStyle = barColor;
 
     dataArray.forEach((_, index) => {
       angle += step;

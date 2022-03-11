@@ -8,6 +8,6 @@ export const AppWrapper = styled.div`
     flex-col
     max-w-[800px] 
     mx-auto
-    justify-between
+    justify-between 
   `}
 `;

@@ -13,12 +13,14 @@ export const Title = styled.div`
   ${tw`
     text-xl
     truncate
+    max-w-[80%] 
+    mx-auto
   `}
 `;
 
 export const Artist = styled.div`
   ${tw`
-    text-darker-text
+    text-secondary-text
     text-lg
     truncate
   `}

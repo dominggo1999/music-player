@@ -3,11 +3,26 @@ import { ImageWrapper, Overlay } from './BackgroundImage.style';
 import { userSettingsSelector } from '../../store/useUserSettingsStore';
 
 const BackgroundImage = () => {
-  const settings = userSettingsSelector('settings');
+  const imageLocation = userSettingsSelector('settings', 'imageLocation');
+  const overlay = userSettingsSelector('settings', 'overlay');
 
   return (
     <ImageWrapper>
-      <Overlay />
+      {
+        imageLocation && (
+          <>
+            <img
+              src={`atom://${imageLocation}`}
+              alt="Background"
+            />
+            <Overlay
+              style={{
+                opacity: `${overlay}%`,
+              }}
+            />
+          </>
+        )
+      }
     </ImageWrapper>
   );
 };

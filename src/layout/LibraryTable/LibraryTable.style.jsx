@@ -104,6 +104,7 @@ export const TableWrapper = styled.div`
   tr.now-playing{
     ${tw`
       text-accent
+      font-semibold
     `}
   }
 
@@ -159,8 +160,10 @@ export const TableWrapper = styled.div`
   tbody tr {
     ${tw`
       py-3 
-      hover:bg-[#272b61]
+      hover:bg-primary-hover
     `}
+
+    ${({ bg }) => bg && tw`hover:(bg-transparent)`}
   }
 
   tbody::-webkit-scrollbar {

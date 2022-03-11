@@ -8,7 +8,7 @@ export const StyledSearchBar = styled.div`
    input {
     ${tw`
       bg-transparent
-      border
+      border-accent
       border-2
       rounded-full
       pl-5
@@ -16,6 +16,12 @@ export const StyledSearchBar = styled.div`
       py-1
       outline-none
     `}
+
+  ::placeholder {
+   ${tw`
+      text-secondary-text
+   `}
+  }
   }
 `;
 
@@ -39,6 +45,7 @@ export const ClearQueryButton = styled.button`
   svg{
     ${tw`
       opacity-80
+      text-main-text
     `}
   }
 `;

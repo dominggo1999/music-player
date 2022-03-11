@@ -32,7 +32,7 @@ export const PlayerWrapper = styled.div`
   /* Time indicator */
   .rhap_time{
     ${tw`
-      text-light-text
+      text-main-text
     `}
   }
 
@@ -54,13 +54,13 @@ export const PlayerWrapper = styled.div`
   /* Download Progress */
   .rhap_download-progress{
     ${tw`
-      bg-[#f2d78d]
+      bg-player-download-progress
     `}
   }
 
   .rhap_progress-bar{
     ${tw`
-      bg-[#928f78]
+      bg-player-bar
     `}
   }
 
@@ -88,7 +88,7 @@ export const PlayerWrapper = styled.div`
   /* Volume bar */
   .rhap_volume-bar{
     ${tw`
-      bg-[#928f78]
+      bg-player-download-progress
     `}
   }
 

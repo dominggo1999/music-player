@@ -288,6 +288,6 @@ ipcMain.handle('choose-background-image', async (sender) => {
   const imageLocation = imageFile.filePaths[0];
 
   return {
-    imageLocation: path.basename(imageLocation),
+    imageLocation,
   };
 });
