@@ -60,7 +60,7 @@ export const PlayerWrapper = styled.div`
 
   .rhap_progress-bar{
     ${tw`
-      bg-player-bar
+      bg-player-download-progress
     `}
   }
 
