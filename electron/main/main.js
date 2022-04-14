@@ -251,7 +251,7 @@ ipcMain.handle('get-sorting-settings', async (sender) => {
 });
 
 const defaultUserSettings = {
-  theme: 'default',
+  theme: 'originale',
   imageLocation: '',
   overlay: 0.6,
 };
