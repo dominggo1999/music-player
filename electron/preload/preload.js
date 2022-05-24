@@ -11,6 +11,7 @@ const validChannels = [
   'get-user-settings',
   'save-user-settings',
   'choose-background-image',
+  'reset',
 ];
 
 const api = {

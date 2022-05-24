@@ -10,6 +10,7 @@ const {
   globalShortcut,
   crashReporter,
 } = require('electron');
+const chokidar = require('chokidar');
 const isDev = require('electron-is-dev');
 const path = require('path');
 const util = require('util');
@@ -24,7 +25,7 @@ const scanRecursive = util.promisify(recursive);
 
 const resolve = path.resolve;
 
-if(isDev) {
+if (isDev) {
   // the first argument can be: a file, directory or glob pattern
   // eslint-disable-next-line global-require
   require('electron-reload')(path.join(__dirname, '../'));
@@ -88,7 +89,7 @@ function createWindow() {
   });
 }
 
-if(isDev) {
+if (isDev) {
   // Crash reporter
   // console.log(app.getPath('crashDumps'));
   crashReporter.start({ submitURL: '', uploadToServer: false });
@@ -115,7 +116,7 @@ app.whenReady().then(() => {
 
 app.on('ready', () => {
   // Disable devtools on build
-  if(!isDev) {
+  if (!isDev) {
     // globalShortcut.register('Control+Shift+I', () => {
     //   return false;
     // });
@@ -146,13 +147,12 @@ const getFiles = async () => {
   });
 
   // If dialog is cancel tell renderer
-  if(directory.canceled) {
+  if (directory.canceled) {
     return {
       canceled: true,
     };
   }
 
-  console.log('q');
   // If directory is chosen tell renderer to trigger loading indicator
   window.webContents.send('scanning-folder', 'scanning-folder');
 
@@ -174,7 +174,7 @@ const getFiles = async () => {
   let files = await scanRecursive(folder, [ignoreFunction]);
 
   // If empty tell the renderer
-  if(files.length === 0) {
+  if (files.length === 0) {
     // Save folder location
     emptyStore();
 
@@ -224,9 +224,24 @@ ipcMain.handle('first-render', async () => {
   const sortingSettings = store.get('sorting-settings');
 
   // If no directory return empty array
-  if(!currentDirectory) {
+  if (!currentDirectory) {
     return [];
   }
+
+  // Initialize watcher.
+  const watcher = chokidar.watch(currentDirectory, {
+    ignored: /(^|[\/\\])\../, // ignore dotfiles
+    persistent: true,
+  });
+
+  const resetMessage = async () => {
+    window.webContents.send('reset', 'reset');
+  };
+
+  watcher
+    .on('change', (path) => resetMessage())
+    .on('unlink', (path) => resetMessage())
+    .on('unlinkDir', (path) => resetMessage());
 
   // If there is directory, get all files in the directory
   return {
@@ -235,6 +250,13 @@ ipcMain.handle('first-render', async () => {
     files: currentFiles,
     sortingSettings,
   };
+});
+
+ipcMain.handle('reset', async (sender, data) => {
+  store.delete('current_directory');
+  store.delete('current_files');
+  store.delete('active_song');
+  store.delete('sorting_settings');
 });
 
 ipcMain.handle('save-active-song', async (sender, data) => {
@@ -259,7 +281,7 @@ const defaultUserSettings = {
 ipcMain.handle('get-user-settings', async (sender) => {
   const userSettings = store.get('user_settings');
 
-  if(!userSettings) {
+  if (!userSettings) {
     store.set('user_settings', defaultUserSettings);
     return defaultUserSettings;
   }
@@ -279,7 +301,7 @@ ipcMain.handle('choose-background-image', async (sender) => {
     ],
   });
 
-  if(imageFile.canceled) {
+  if (imageFile.canceled) {
     return {
       canceled: true,
     };

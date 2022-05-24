@@ -39,6 +39,12 @@ const updateOrder = (set, newOrder) => {
   }));
 };
 
+const resetList = (set) => {
+  return set(produce((draft) => {
+    draft.list = initialSongs;
+  }));
+};
+
 const useListStore = create((set, get) => {
   return {
     list: initialSongs,
@@ -47,6 +53,7 @@ const useListStore = create((set, get) => {
     sort: (newSortParam) => sort(set, newSortParam),
     updateDirectory: (newDirectory) => updateDirectory(set, newDirectory),
     updateOrder: (newDirectory) => updateOrder(set, newDirectory),
+    resetList: () => resetList(set),
   };
 });
 

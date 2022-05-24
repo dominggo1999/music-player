@@ -52,15 +52,15 @@ const App = () => {
 
         const targetSongIndex = files.map((i) => i.path).indexOf(activeSong);
 
-        if(targetSongIndex === -1) {
+        if (targetSongIndex === -1) {
           const firstSong = files[0].path;
           updateActiveSong(firstSong);
-        }else{
+        } else {
           updateActiveSong(activeSong);
         }
       } catch (error) {
         setError(error);
-      }finally{
+      } finally {
         setLoading(false);
         setLibraryLoading(false);
       }
@@ -69,7 +69,7 @@ const App = () => {
     getSavedData();
 
     const scanningFile = (msg) => {
-      if(msg === 'scanning-folder') {
+      if (msg === 'scanning-folder') {
         setLibraryLoading(true);
         updateAutoplay(false);
       }
@@ -94,7 +94,7 @@ const App = () => {
     getSettings();
   }, []);
 
-  if(Object.keys(settings).length === 0) {
+  if (Object.keys(settings).length === 0) {
     return null;
   }
 

@@ -39,6 +39,12 @@ const updateIsPlay = (set, newValue) => {
   }));
 };
 
+const resetActiveSong = (set) => {
+  return set(produce((draft) => {
+    draft.activeSong = initialActiveSong;
+  }));
+};
+
 const useActiveSongStore = create((set, get) => {
   return {
     activeSong: initialActiveSong,
@@ -47,6 +53,7 @@ const useActiveSongStore = create((set, get) => {
     updateIsPlay: (newValue) => updateIsPlay(set, newValue),
     updateNextPath: (newValue) => updateNextPath(set, newValue),
     updatePrevPath: (newValue) => updatePrevPath(set, newValue),
+    resetActiveSong: () => resetActiveSong(set),
   };
 });
 

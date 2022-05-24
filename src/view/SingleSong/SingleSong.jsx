@@ -11,7 +11,7 @@ const SingleSong = ({ chooseDirectory, loading }) => {
   const activeSong = useActiveSongStore((state) => state.activeSong.path);
   const songs = useListStore((state) => state.list.songs);
 
-  if(loading) {
+  if (loading) {
     return (
       <LoadingIndicatorWrapper>
         <SearchIndicator />
@@ -20,7 +20,7 @@ const SingleSong = ({ chooseDirectory, loading }) => {
     );
   }
 
-  if(!activeSong) {
+  if (!activeSong || songs.length === 0) {
     return (
       <NoLibraryMessage chooseDirectory={chooseDirectory} />
     );

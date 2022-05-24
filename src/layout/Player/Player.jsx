@@ -13,8 +13,10 @@ const Player = ({ loading }) => {
   const updateIsPlay = useActiveSongStore((state) => state.updateIsPlay);
   const isAutoplay = useActiveSongStore((state) => state.activeSong.isAutoplay);
   const updateAutoplay = useActiveSongStore((state) => state.updateAutoplay);
-  const updateActiveSong = useActiveSongStore((state) => state.updateActiveSong);
+  const { updateActiveSong, resetActiveSong } = useActiveSongStore((state) => state);
   const [shouldUpdateAutoPlay, setShouldUpdateAutoPlay] = useState(false);
+  const { resetList } = useListStore((state) => state);
+  const { send, receive } = window.api;
 
   const audioRef = useRef();
 
@@ -37,7 +39,7 @@ const Player = ({ loading }) => {
     updateActiveSong(nextSongPath);
 
     const audioElement = audioRef.current.audio.current;
-    if(audioElement?.paused) {
+    if (audioElement?.paused) {
       updateAutoplay(false);
     }
   };
@@ -57,7 +59,7 @@ const Player = ({ loading }) => {
 
     updateActiveSong(prevSongPath);
     const audioElement = audioRef.current.audio.current;
-    if(audioElement?.paused) {
+    if (audioElement?.paused) {
       updateAutoplay(false);
     }
   };
@@ -76,8 +78,23 @@ const Player = ({ loading }) => {
     updateIsPlay(false);
   };
 
+  const handleError = () => {
+    resetList();
+    resetActiveSong();
+
+    send('reset');
+  };
+
   useEffect(() => {
     audioRef.current.audio.current.setAttribute('id', 'audio-element');
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = receive('reset', handleError);
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return useMemo(() => {
@@ -90,18 +107,17 @@ const Player = ({ loading }) => {
           showFilledVolume
           showSkipControls
           showJumpControls={false}
-          onEnded={!loading ? handleEnded : () => {}}
-          onClickPrevious={!loading ? previousSong : () => {}}
-          onClickNext={!loading ? nextSong : () => {}}
-          onPlay={!loading ? handlePlay : () => {}}
-          onPause={!loading ? handlePause : () => {}}
+          onEnded={!loading ? handleEnded : () => { }}
+          onClickPrevious={!loading ? previousSong : () => { }}
+          onClickNext={!loading ? nextSong : () => { }}
+          onPlay={!loading ? handlePlay : () => { }}
+          onPause={!loading ? handlePause : () => { }}
           ref={audioRef}
         />
         <VisualizerControl audioRef={audioRef} />
       </PlayerWrapper>
     );
-  },
-  [activeSong, isAutoplay, shouldUpdateAutoPlay, JSON.stringify(sortedBy), loading]);
+  }, [activeSong, isAutoplay, shouldUpdateAutoPlay, JSON.stringify(sortedBy), loading]);
 };
 
 export default Player;
