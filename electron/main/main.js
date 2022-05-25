@@ -58,8 +58,11 @@ function createWindow() {
       preload: path.join(getPreloadDir(), '/preload/preload.js'),
     },
     autoHideMenuBar: true,
+    icon: path.join(__dirname, '/favicon.ico'),
   });
   const port = process.env.PORT || 3000;
+
+  console.log(path.join(__dirname, '/favicon.ico'));
 
   const url = isDev ? `http://localhost:${port}` : path.join(getSourceDir(), '/index.html');
   // and load the index.html of the app.

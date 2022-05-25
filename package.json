@@ -12,12 +12,14 @@
     "serve": "vite preview",
     "pack": "npm run build:vite && electron-builder --dir --config.asar=false --win zip",
     "dist": "npm run build:vite && electron-builder --config.asar=false",
-    "gen-theme": "node ./src/themes/generateTheme.js"
+    "gen-theme": "node ./src/themes/generateTheme.js",
+    "pack:prod": "npm run build:vite && electron-builder --dir --win zip"
   },
   "build": {
     "appId": "yourappid",
     "win": {
-      "target": "NSIS"
+      "target": "NSIS",
+      "icon": "app-icon.png"
     },
     "files": [
       "out/**/*",
